@@ -1,4 +1,5 @@
 from django.db import models
+import os
 
 class Participant(models.Model):
     DRIVER_COMING_CHOICES = (
@@ -7,8 +8,8 @@ class Participant(models.Model):
     )
 
     GENDER_CHOICES = (
-        ('Y', 'Yes'),
-        ('N', 'No'),
+        ('M', 'Male'),
+        ('F', 'Female'),
     )
     TRANSPORT_CHOICES = (
         ('launch', 'Launch'),
@@ -36,24 +37,47 @@ class Participant(models.Model):
         ('AB-', 'AB-'),
     )
 
+    PAID_AT_CHOICES = (
+        ('আমিরুল ইসলাম মিরন: 01716953986', 'আমিরুল ইসলাম মিরন: 01716953986'),
+        ('জাকির হোসেন: 01988-691379', 'জাকির হোসেন: 01988-691379'),
+        ('লায়ন মিজানুর রহমান: 01711-530423', 'লায়ন মিজানুর রহমান: 01711-530423'),
+        ('বজলুর রহমান: 01678-054214', 'বজলুর রহমান: 01678-054214'),
+        ('মাহবুবুল হক (মাহবুব): 01762-085059', 'মাহবুবুল হক (মাহবুব): 01762-085059'),
+    )
+
     id_number = models.AutoField(primary_key=True, default=0)
     name = models.CharField(max_length=100)
     contact_number = models.CharField(max_length=20)
     email = models.EmailField()
-    district = models.CharField(max_length=100,null=True)
-    school_name = models.CharField(max_length=100, default=True)
-    profession = models.CharField(max_length=100, choices=PROFESSION_CHOICES, default='other')
+    district = models.CharField(max_length=100,default='')
+    school_name = models.CharField(max_length=100, default='')
+    profession = models.CharField(max_length=100, choices=PROFESSION_CHOICES, default='আমিরুল ইসলাম মিরন: 01716953986')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M')
     blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default= 'B+')
-    spouse_name = models.CharField(max_length=100, null=True)
+    spouse_name = models.CharField(max_length=100, null=True , blank=True)
     driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='N')
     participant_image = models.ImageField(upload_to='participant_images/', blank=True)
     spouse_image = models.ImageField(upload_to='spouse_images/', blank=True)
     # paid_via = models.CharField(max_length=20)
-    # paid_at = models.PositiveIntegerField()
+    paid_at = models.CharField(max_length=35, choices=PAID_AT_CHOICES, default='1000')
     transaction_id = models.CharField(max_length=50, null=True)
     amount = models.DecimalField(max_digits=8, decimal_places=0, default=0)
     transport = models.CharField(max_length=6, choices=TRANSPORT_CHOICES, default= 'launch')
+    is_verified = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+            # Rename participant image
+            if self.participant_image:
+                ext = os.path.splitext(self.participant_image.name)[1]
+                self.participant_image.name = 'PP' + str(self.id_number) + ext
+
+            # Rename spouse image
+            if self.spouse_image:
+                ext = os.path.splitext(self.spouse_image.name)[1]
+                self.spouse_image.name = 'SP' + str(self.id_number) + ext
+
+            super().save(*args, **kwargs)
