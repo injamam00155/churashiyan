@@ -1,3 +1,4 @@
+{% load static %} 
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,9 +14,8 @@
             <a class="nav-link" href="{% url 'participants' %}">Participants</a>
         </div>
     </nav>
-    <div class="container">
         {% block content %}{% endblock %}
-    </div>
+    
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
@@ -30,6 +30,12 @@
             document.body.removeChild(textarea);
             alert('Copied to clipboard: ' + phoneNumber);
         }
+    </script>
+    <script>
+        // Activate the carousel and set interval for automatic slide change
+        $(document).ready(function () {
+            $("#slideshow").carousel({ interval: 3000 });
+        });
     </script>
 </body>
 </html>
