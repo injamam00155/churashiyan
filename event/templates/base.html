@@ -7,19 +7,20 @@
     
 </head>
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <nav class="navbar navbar-expand navbar-dark bg-dark" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 20;">
         <div class="navbar-nav">
             <a class="nav-link" href="{% url 'home' %}">Home</a>
             <a class="nav-link" href="{% url 'registration' %}">Registration</a>
             <a class="nav-link" href="{% url 'participants' %}">Participants</a>
         </div>
     </nav>
-    <center><p>
+    
+    <div class="mt-5 pt-5"><center><p>
         <img src="{% static 'logo1.png' %}" alt="Image 1" style="display: inline; vertical-align: middle; width:150px">
         <bold><span class="mx-5" style="display: inline-block; vertical-align: middle;font-size: xxx-large;">পিরোজপুরের চুরাশিয়ান মিলনমেলায় ২০২৩</span></bold>
         <img src="{% static 'logo2.png' %}" alt="Image 2" style="display: inline; vertical-align: middle; width:150px">
     </p></center>
-
+    </div>
         {% block content %}{% endblock %}
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
