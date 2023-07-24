@@ -38,7 +38,7 @@ class Participant(models.Model):
     )
 
     PAID_AT_CHOICES = (
-        ('আমিরুল ইসলাম মিরন: 01716953986', 'আমিরুল ইসলাম মিরন: 01716953986'),
+        ('আমিরুল ইসলাম মিরন: 01776411919', 'আমিরুল ইসলাম মিরন: 01776411919'),
         ('জাকির হোসেন: 01988-691379', 'জাকির হোসেন: 01988-691379'),
         ('লায়ন মিজানুর রহমান: 01711-530423', 'লায়ন মিজানুর রহমান: 01711-530423'),
         ('বজলুর রহমান: 01678-054214', 'বজলুর রহমান: 01678-054214'),
@@ -70,22 +70,26 @@ class Participant(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if self.id_number is None:  # Check if the instance is being saved for the first time
+            if self.id_number is None:  # Check if the instance is being saved for the first time
+                if self.spouse_name:
+                    self.amount += 1000
+                if self.driver_coming=='Y':
+                    self.amount += 500
+            # Rename participant image
+            if self.participant_image:
+                ext = os.path.splitext(self.participant_image.name)[1]
+                self.participant_image.name = 'PP' + str(self.id_number) + ext
+
+            # Rename spouse image
+            if self.spouse_image:
+                ext = os.path.splitext(self.spouse_image.name)[1]
+                self.spouse_image.name = 'SP' + str(self.id_number) + ext
+
             if self.spouse_name:
                 self.amount += 1000
 
             if self.driver_coming == 'Y':
                 self.amount += 500
 
-            # Rename participant image (after updating 'amount')
-            if self.participant_image:
-                ext = os.path.splitext(self.participant_image.name)[1]
-                self.participant_image.name = 'PP' + str(self.id_number) + ext
+            super().save(*args, **kwargs)
 
-            # Rename spouse image (after updating 'amount')
-            if self.spouse_image:
-                ext = os.path.splitext(self.spouse_image.name)[1]
-                self.spouse_image.name = 'SP' + str(self.id_number) + ext
-
-        # Call the parent class's save method to save the instance
-        super().save(*args, **kwargs)
