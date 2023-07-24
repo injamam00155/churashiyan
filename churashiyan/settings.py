@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+# settings.py
+
+# # Backblaze B2 API credentials
+# B2_ACCOUNT_ID = 'your_backblaze_account_id'
+# B2_APPLICATION_KEY = 'your_backblaze_application_key'
+
+# # Backblaze B2 bucket name
+# B2_BUCKET_NAME = 'your_backblaze_bucket_name'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,10 +88,23 @@ WSGI_APPLICATION = 'churashiyan.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+import dj_database_url
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pirojpurchurashiyan',
+        'USER': 'pirojpurchurashiyan_user',
+        'PASSWORD': 'IFhVbOlukNqDpnQeCGQpy8V93gBpPcEq',
+        'HOST': 'dpg-civf51s07sptttjgu2fg-a.oregon-postgres.render.com',
+        'PORT': '5432',
     }
 }
 

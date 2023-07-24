@@ -101,14 +101,20 @@ def svg_to_pdf(svg_code):
 def get_id_card(request, id_type, id_number):
     # Fetch the participant based on the id_number
     participant = get_object_or_404(Participant, id_number=id_number)
-
+    id=participant.id_number
+    if id:
+        id = str(id).zfill(3)
+    context = {
+        'participant': participant,
+        'id':id,
+    }
     if id_type == 'own':
         # Render the SVG template with the participant's data
-        svg_code = render_to_string('id_participant.html', {'participant': participant})
+        svg_code = render_to_string('id_participant.html', context)
 
     elif id_type == 'spouse':
         # Render the SVG template with the spouse's data
-        svg_code = render_to_string('id_spouse.html', {'participant': participant})
+        svg_code = render_to_string('id_spouse.html', context)
   
     else:
         return HttpResponse("Invalid id_type")
