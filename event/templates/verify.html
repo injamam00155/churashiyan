@@ -1,6 +1,7 @@
+<!-- admin_verify_participants.html -->
 {% extends 'base.html' %}
 
-{% block title %}Participants{% endblock %}
+{% block title %}Verify Participants{% endblock %}
 
 {% block content %}
 {% if messages %}
@@ -21,55 +22,84 @@
     <thead>
         <tr>
             <th>ID Number</th>
-            <th>Participant Picture</th>
             <th>Name</th>
-            <th>Spouse Picture</th>
+            <th>Participant Picture</th>
             <th>Spouse Name</th>
-            <th>District</th>
-            <th>Contact Number</th>
-            <th>Email</th>
-            <th>Profession</th>
-            <th>Gender</th>
-            <th>Blood Group</th>
+            <th>Spouse Picture</th>
             <th>Driver Coming</th>
-            <th>Transaction Verification</th>
-            <th>View ID</th>
+            <th>Amount</th>
+            <th>Transaction Number</th>
+            <th>Paid At</th>
+            <th>Verification Status</th>
         </tr>
     </thead>
     <tbody>
         {% for participant in participants %}
         <tr>
             <td>{{ participant.id_number }}</td>
-            <td><img src="{{ participant.participant_image.url }}" alt="Participant Picture" width="100"></td>
             <td>{{ participant.name }}</td>
-            <td>
-                {% if participant.spouse_image.url is not null %}
-                <img src="{{ participant.spouse_image.url }}" alt="Spouse Picture" width="100">
-                {% else %}
-                No Image Uploaded
-                {% endif %}
-            </td>
+            <td><img src="{{ participant.participant_image.url }}" alt="Participant Picture" width="100"></td>
             <td>{{ participant.spouse_name }}</td>
-            <td>{{ participant.district }}</td>
-            <td>{{ participant.contact_number }}</td>
-            <td>{{ participant.email }}</td>
-            <td>{{ participant.profession }}</td>
-            <td>{{ participant.gender }}</td>
-            <td>{{ participant.blood_group }}</td>
-            <td>{{ participant.driver_coming }}</td>
             <td>
-                <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
-            </td>
-            <td>
-                {% if participant.is_verified %}
-                    <span class="badge badge-success">Verified</span>
+                {% if participant.spouse_image.url %}
+                    <img src="{{ participant.spouse_image.url }}" alt="Spouse Picture" width="100">
                 {% else %}
-                    <span class="badge badge-danger">Not Verified</span>
+                    No Image Uploaded
                 {% endif %}
             </td>
+            <td>{{ participant.driver_coming }}</td>
+            <td>{{ participant.amount }}</td>
+            <td>{{ participant.transaction_id }}</td>
+            <td>{{ participant.paid_at }}</td>
+                <!-- ... (existing code) -->
+                <td>
+                    <form method="post" id="updateStatusForm{{ participant.id_number }}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <!-- <button type="button" class="btn btn-primary" onclick="updateStatus({{ participant.id_number }})">Update Status</button> -->
+                    </form>
+                    <span id="status{{ participant.id_number }}" class="badge {% if participant.is_verified %}badge-success{% else %}badge-danger{% endif %}">
+                        {% if participant.is_verified %}
+                            Verified
+                        {% else %}
+                            Not Verified
+                        {% endif %}
+                    </span>
+                </td>
         </tr>
         {% endfor %}
     </tbody>
+
 </table>
+<script>
+    function updateStatus(participantId) {
+        const form = document.getElementById('updateStatusForm' + participantId);
+        const statusElement = document.getElementById('status' + participantId);
+        const isVerified = statusElement.classList.contains('badge-success');
+        const formData = new FormData(form);
+
+        // Add is_verified value to the form data
+        formData.append('is_verified', !isVerified);
+
+        // Send the AJAX request
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update the status element
+            statusElement.textContent = data.is_verified ? 'Verified' : 'Not Verified';
+            statusElement.classList.toggle('badge-success', data.is_verified);
+            statusElement.classList.toggle('badge-danger', !data.is_verified);
+        })
+        .catch(error => {
+            console.error('Error updating status:', error);
+        });
+    }
+</script>
 
 {% endblock %}

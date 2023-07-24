@@ -1,15 +1,16 @@
 # from django.contrib import admin
 from django.urls import include, path
 from django.contrib import admin
-from .admin import ParticipantAdmin
 from django.conf import settings
 from django.conf.urls.static import static
+from event import views
+
 
 urlpatterns = [
     path('', include('event.urls')),
     path('admin/', admin.site.urls),
-    path('admin/verify/', ParticipantAdmin.verify, name='verify'),
-    # path('admin/verify/', ParticipantAdmin.verify, name='verify'),
+    path('verify/', views.admin_verify_participants, name='admin_verify_participants'),
+
 ]
 
 if settings.DEBUG:

@@ -21,7 +21,7 @@ class ParticipantForm(forms.ModelForm):
             'driver_coming',
             'transaction_id',
             'paid_at',
-            'amount',
+            # 'amount',
             'transport',
         ]
         widgets = {
@@ -39,6 +39,6 @@ class ParticipantForm(forms.ModelForm):
             'driver_coming': forms.Select(attrs={'class': 'form-control'}),
             'transaction_id': forms.TextInput(attrs={'class': 'form-control'}),
             'paid_at':forms.Select(attrs={'class': 'form-control'}),
-            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'transport': forms.Select(attrs={'class': 'form-control'}),
         }

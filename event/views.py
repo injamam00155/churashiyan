@@ -1,4 +1,7 @@
 
+from django.shortcuts import render
+from .models import Participant  # Import your Participant model
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
 from django.template.loader import get_template
 from .models import Participant
@@ -7,6 +10,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import Count
 from .forms import ParticipantForm
 from .models import *
+from django.db.models import Max
 
 
 def home(request):
@@ -20,14 +24,33 @@ def registration(request):
         form = ParticipantForm(request.POST, request.FILES)
         if form.is_valid():
             participant = form.save(commit=False)
-            # Get the total number of rows in the Participant table
-            total_rows = Participant.objects.aggregate(total=Count('id_number'))['total']
-            participant.id_number = total_rows + 1
+
+            # Get the maximum id_number from the Participant table
+            max_id_number = Participant.objects.aggregate(Max('id_number'))['id_number__max']
+
+            if max_id_number is None:
+                max_id_number = 0
+
+            # Generate the new id_number by incrementing the maximum value
+            participant.id_number = max_id_number + 1
+
             participant.save()
             messages.success(request, 'Registration successful!')
             return redirect('participants')
 
     return render(request, 'registration.html', {'form': form})
+
+
+
+# Custom decorator to check if the user is an admin
+def is_user_admin(user):
+    return user.is_authenticated and user.is_superuser
+
+# Apply the custom decorator to the view function
+@user_passes_test(is_user_admin)
+def admin_verify_participants(request):
+    participants = Participant.objects.all()
+    return render(request, 'verify.html', {'participants': participants})
 
 
 def participants(request):
@@ -38,8 +61,21 @@ def participants(request):
 def view_id_card(request, id_number):
     participant = get_object_or_404(Participant, id_number=id_number)
 
+    template = get_template('id_card.html')
+
+    context = {
+        'participant': participant,
+    }
+
+    return render(request, 'id_card.html', context)
+
+
+def get_id_card(request, id_number):
+    participant = get_object_or_404(Participant, id_number=id_number)
+
     # Generate the ID card PDF using the participant data
     template = get_template('id_card.html')
+        
     context = {
         'participant': participant,
     }

@@ -40,11 +40,17 @@
         {% for participant in participants %}
         <tr>
             <td>{{ participant.id_number }}</td>
-            <td><img src="{{ participant.participant_image.url }}" alt="Participant Picture" width="100"></td>
+            <td>
+                <div class="image-container">
+                    <img src="{{ participant.participant_image.url }}" alt="Participant Picture">
+                </div>
+            </td>
             <td>{{ participant.name }}</td>
             <td>
-                {% if participant.spouse_image.url is not null %}
-                <img src="{{ participant.spouse_image.url }}" alt="Spouse Picture" width="100">
+                {% if participant.spouse_image %}
+                <div class="image-container">
+                    <img src="{{ participant.spouse_image.url }}" alt="Spouse Picture">
+                </div>
                 {% else %}
                 No Image Uploaded
                 {% endif %}
@@ -58,14 +64,19 @@
             <td>{{ participant.blood_group }}</td>
             <td>{{ participant.driver_coming }}</td>
             <td>
-                <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
-            </td>
-            <td>
                 {% if participant.is_verified %}
                     <span class="badge badge-success">Verified</span>
                 {% else %}
                     <span class="badge badge-danger">Not Verified</span>
                 {% endif %}
+            </td>
+            <td>
+            {% if participant.is_verified %}
+            <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
+            {% else %}
+            <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
+            Not Yet Verified
+            {% endif %}
             </td>
         </tr>
         {% endfor %}

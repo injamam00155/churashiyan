@@ -4,7 +4,19 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        .image-container {
+            width: 100px; /* Fixed width */
+            height: 100px; /* Fixed height */
+            overflow: hidden; /* Crop the image if it exceeds container dimensions */
+        }
     
+        .image-container img {
+            width: 100%; /* Ensure the image fills the container */
+            height: 100%; /* Ensure the image fills the container */
+            object-fit: cover; /* Crop and center the image */
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 20;">
