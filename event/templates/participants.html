@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{%load static%}
 {% block title %}Participants{% endblock %}
 
 {% block content %}
@@ -54,7 +54,9 @@
                     <img src="{{ participant.spouse_image.url }}" alt="Spouse Picture">
                 </div>
                 {% else %}
-                No Image Uploaded
+                <div class="image-container">
+                    <img src="{% static 'unknown.jpg' %}" alt="Spouse Picture">
+                </div>
                 {% endif %}
             </td>
             <td>{{ participant.spouse_name }}</td>
