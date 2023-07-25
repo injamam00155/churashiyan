@@ -87,16 +87,28 @@ WSGI_APPLICATION = 'churashiyan.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pirojpurchurashiyan',
-        'USER': 'pirojpurchurashiyan_user',
-        'PASSWORD': 'IFhVbOlukNqDpnQeCGQpy8V93gBpPcEq',
-        'HOST': 'dpg-civf51s07sptttjgu2fg-a.oregon-postgres.render.com',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'pirojpurchurashiyan_kuc0',
+#         'USER': 'pirojpurchurashiyan_kuc0_user',
+#         'PASSWORD': '5HPF4UYEnaHUgtLoybgZvSNy19TfGAfd',
+#         'HOST': 'dpg-civh6n98g3n49gj8ibb0-a-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
+
+# import dj_database_url
+
+# DATABASES = {
+#     "default": dj_database_url.parse('postgres://pirojpurchurashiyan_kuc0_user:5HPF4UYEnaHUgtLoybgZvSNy19TfGAfd@dpg-civh6n98g3n49gj8ibb0-a.oregon-postgres.render.com/pirojpurchurashiyan_kuc0')
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
