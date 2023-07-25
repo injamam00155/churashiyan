@@ -1,3 +1,4 @@
+{% load static %}
 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="252" height="360">
   <defs>
@@ -25,8 +26,14 @@
 
 <!-- Image is Here -->
 
+{%if participant.participant_image%}
   <image  x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
   xlink:href="{{ participant.participant_image.url }}" />
+{%else%}
+
+<image  x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
+  xlink:href="{% static 'unknown.jpg' %}" />
+{%endif%}
 
 <!-- Image Ends -->
 
