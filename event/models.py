@@ -70,11 +70,16 @@ class Participant(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+            if self.name and self.spouse_name and self.driver_coming=='Y':
+                 self.amount = 2500
+            elif self.name and self.spouse_name and self.driver_coming=='N':
+                self.amount = 2000
+            if self.name and not self.spouse_name and self.driver_coming=='Y':
+                 self.amount = 1500
+            elif self.name and not self.spouse_name and self.driver_coming=='N':
+                self.amount = 1000
+
             if self.id_number is None:  # Check if the instance is being saved for the first time
-                if self.spouse_name:
-                    self.amount += 1000
-                if self.driver_coming=='Y':
-                    self.amount += 500
             # Rename participant image
                 if self.participant_image:
                     ext = os.path.splitext(self.participant_image.name)[1]
