@@ -1,5 +1,10 @@
 from django.db import models
 import os
+import cloudinary
+
+def get_upload_path(instance, filename):
+    # Customize the upload path based on the instance's attributes
+    return os.path.join('uploads', 'participants', str(instance.id), filename)
 
 class Participant(models.Model):
     DRIVER_COMING_CHOICES = (
@@ -68,6 +73,14 @@ class Participant(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def delete(self, *args, **kwargs):
+        # Delete the associated pictures from Cloudinary when the instance is deleted
+        if self.participant_image:
+            cloudinary.uploader.destroy(self.participant_image.name)
+        if self.spouse_image:
+            cloudinary.uploader.destroy(self.spouse_image.name)
+        super(Participant, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
             if self.name and self.spouse_name and self.driver_coming=='Y':
