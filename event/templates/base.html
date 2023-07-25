@@ -5,6 +5,14 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
+        .navbar-nav .nav-link {
+            font-size: 25px;
+        }
+
+        /* Center the footer texts */
+        .footer-text {
+            text-align: center;
+        }
         .image-container {
             width: 100px; /* Fixed width */
             height: 100px; /* Fixed height */
@@ -55,8 +63,20 @@
         <img src="{% static 'logo2.png' %}" alt="Image 2" style="display: inline; vertical-align: middle; width:150px">
     </p></center>
     </div>
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
+
+
+    <footer class="navbar navbar-expand navbar-dark bg-dark fixed-bottom">
+        <div class="navbar-nav mx-auto justify-content-between w-100 px-5">
+            <div class="nav-item nav-link text-white mx-3 footer-text">All rights reserved by Pirojpur Churashiyan</div>
+            <div class="nav-item nav-link text-white mx-3 footer-text">Developed by injamam00155</div>
+        </div>
+    </footer>
     
+
+
+
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<div class="container">
-    <h1 class=" text-center bg-primary text-white p-3">Event Registration</h1>
-    <div class="p-3 rounded  mb-3" style="background-color: rgba(0, 123, 255, 0.15);">
+<div class="container mb-5 pb-5" style='margin-bottom: 4rem;'>
+    <h1 class="text-center bg-primary text-white p-3">Event Registration</h1>
+    <div class="p-3 rounded mb-4" style="background-color: rgba(0, 123, 255, 0.15);">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
@@ -14,4 +14,5 @@
         </form>
     </div>
 </div>
+
 {% endblock %}
