@@ -42,7 +42,9 @@
             <td>{{ participant.id_number }}</td>
             <td>
                 <div class="image-container">
+                    <!-- {% if participant.participant_image %} -->
                     <img src="{{ participant.participant_image.url }}" alt="Participant Picture">
+                    <!-- {% endif %} -->
                 </div>
             </td>
             <td>{{ participant.name }}</td>

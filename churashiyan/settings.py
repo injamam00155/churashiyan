@@ -103,11 +103,11 @@ DATABASES = {
 #     }
 # }
 
-# import dj_database_url
+import dj_database_url
 
-# DATABASES = {
-#     "default": dj_database_url.parse('postgres://pirojpurchurashiyan_kuc0_user:5HPF4UYEnaHUgtLoybgZvSNy19TfGAfd@dpg-civh6n98g3n49gj8ibb0-a.oregon-postgres.render.com/pirojpurchurashiyan_kuc0')
-# }
+DATABASES = {
+    "default": dj_database_url.parse('postgres://pirojpurchurashiyan_kuc0_user:5HPF4UYEnaHUgtLoybgZvSNy19TfGAfd@dpg-civh6n98g3n49gj8ibb0-a.oregon-postgres.render.com/pirojpurchurashiyan_kuc0')
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
