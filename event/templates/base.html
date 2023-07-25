@@ -47,6 +47,38 @@
             flex-direction: column; /* Arrange the SVG and button vertically */
             align-items: center; /* Center items horizontally */
         }
+        .scrolling-text-container {
+            width: 100%;
+            height: 70px; /* Set the height of the container as needed */
+            overflow: hidden;
+            position: relative;
+            background-color: #f2f2f2;
+            margin-top: 0;
+        }
+
+.scrolling-text {
+    font-size: xxx-large;
+    white-space: nowrap;
+    position: absolute;
+    top: -5%;
+    right: 0; /* Start from the right side */
+    animation: scrolling 7.5s linear infinite; /* Adjust the animation duration as needed */
+}
+
+.scrolling-text p {
+    display: inline-block;
+    font-weight: bold; 
+    margin: 0;
+}
+
+@keyframes scrolling {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-150%);
+    }
+}
 
     </style>
 </head>
