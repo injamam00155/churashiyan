@@ -24,10 +24,14 @@
   </defs>
 
 <!-- Image is Here -->
-
+{{%if participant.spouse_image%}}
   <image  x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
   xlink:href="{{ participant.spouse_image.url }}" />
+{{%else%}}  
+<image  x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
+  xlink:href="{% static 'unknown.jpg' %}" />
 
+{{%endif%}}
 <!-- Image Ends -->
 
 
