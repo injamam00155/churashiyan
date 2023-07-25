@@ -7,7 +7,8 @@ from event.models import Participant
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ['id_number', 'name', 'spouse_name', 'driver_coming', 'paid_at', 'amount', 'transaction_id', 'is_verified']
     actions = ['mark_verified', 'mark_unverified']  # Add custom actions to set 'is_verified'
-
+    list_filter = ['is_verified', 'paid_at']
+    
     def mark_verified(self, request, queryset):
         # Set 'is_verified' to True for selected instances
         queryset.update(is_verified=True)
