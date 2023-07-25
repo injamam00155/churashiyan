@@ -4,6 +4,13 @@ import cloudinary
 from django.contrib import admin
 from event.models import Participant
 
+
+# Override the site header, browser tab title, and index page title
+admin.site.site_header = "পিরোজপুর চুরাশিয়ান মিলনমেলা"
+admin.site.site_title = "পিরোজপুর চুরাশিয়ান মিলনমেলা"
+admin.site.index_title = "Pirojpur Churashiyan Admin "
+
+
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ['id_number', 'name', 'spouse_name', 'driver_coming', 'paid_at', 'amount', 'transaction_id', 'is_verified']
     actions = ['mark_verified', 'mark_unverified']  # Add custom actions to set 'is_verified'
@@ -35,3 +42,6 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Participant, ParticipantAdmin)
+
+
+
