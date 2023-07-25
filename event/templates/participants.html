@@ -74,7 +74,7 @@
             {% if participant.is_verified %}
             <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
             {% else %}
-            <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
+            <!-- <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a> -->
             Not Yet Verified
             {% endif %}
             </td>
