@@ -55,7 +55,7 @@ class Participant(models.Model):
     contact_number = models.CharField(max_length=20)
     email = models.EmailField(null=True)
     district = models.CharField(max_length=20,default='')
-    school_name = models.CharField(max_length=28, default='')
+    school_name = models.CharField(max_length=50, default='')
     profession = models.CharField(max_length=10, choices=PROFESSION_CHOICES, default='Service')
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='M')
     blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default= 'B+')

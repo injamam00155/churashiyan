@@ -60,6 +60,7 @@ def participants(request):
     context = {'participants': participants}
     return render(request, 'participants.html', context)
 
+
 def view_id_card(request, id_number):
     participant = get_object_or_404(Participant, id_number=id_number)
 
