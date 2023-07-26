@@ -48,10 +48,8 @@ class Participant(models.Model):
     )
 
     PAID_AT_CHOICES = (
-        ('আমিরুল ইসলাম মিরন: 01776411919', 'আমিরুল ইসলাম মিরন: 01776411919'),
         ('জাকির হোসেন: 01988-691379', 'জাকির হোসেন: 01988-691379'),
         ('লায়ন মিজানুর রহমান: 01711-530423', 'লায়ন মিজানুর রহমান: 01711-530423'),
-        ('বজলুর রহমান: 01678-054214', 'বজলুর রহমান: 01678-054214'),
         ('মাহবুবুল হক (মাহবুব): 01762-085059', 'মাহবুবুল হক (মাহবুব): 01762-085059'),
     )
 
@@ -60,11 +58,11 @@ class Participant(models.Model):
     contact_number = models.CharField(max_length=20)
     email = models.EmailField(null=True)
     district = models.CharField(max_length=20,default='')
-    school_name = models.CharField(max_length=50, default='')
+    school_name = models.CharField(max_length=100, default='')
     profession = models.CharField(max_length=10, choices=PROFESSION_CHOICES, default='Service')
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='M')
     blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default= 'B+')
-    spouse_name = models.CharField(max_length=100, null=True , blank=True)
+    spouse_name = models.CharField(max_length=28, null=True , blank=True)
     spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='N')
     driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='N')
     participant_image = models.ImageField(upload_to='', blank=True)
