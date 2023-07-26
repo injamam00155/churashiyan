@@ -63,6 +63,17 @@ def participants(request):
 
 def view_id_card(request, id_number):
     participant = get_object_or_404(Participant, id_number=id_number)
+    school_length=len(str(participant.school_name))
+    font_size=17
+    font_top=272
+
+    if school_length > 23:
+        font_size -= (school_length - 23) // 7
+        font_top -= ((school_length - 23) // 7)*0.1
+
+    # print(school_length)
+    # print(font_size)
+    # print(font_top)
 
     template = get_template('id_template.html')
 
@@ -72,6 +83,8 @@ def view_id_card(request, id_number):
     context = {
         'participant': participant,
         'id':id,
+        'font_size':font_size,
+        'font_top':font_top,
     }
 
     return render(request, 'id_template.html', context)
