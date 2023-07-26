@@ -10,9 +10,9 @@
             {% include 'id_participant.html' %}
             <!-- SVG content for the participant's ID card -->
         </div>
-        <div class="button-container m-3">
-            <!-- <a class="btn btn-primary" href="{% url 'get_id_card' id_number=participant.id_number id_type='own' %}">Get Own ID Card</a> -->
-        </div>
+        <!-- <div class="button-container m-3">
+            <a class="btn btn-primary" href="{% url 'get_id_card' id_number=participant.id_number id_type='own' %}">Get Own ID Card</a>
+        </div> -->
     </div>
 
     <!-- Spouse ID -->
@@ -22,9 +22,9 @@
             {% include 'id_spouse.html' %}
             <!-- SVG content for the spouse's ID card -->
         </div>
-        <div class="button-container m-3">
-            <!-- <a class="btn btn-primary" href="{% url 'get_id_card' id_number=participant.id_number id_type='spouse' %}">Get Spouse ID Card</a> -->
-        </div>
+        <!-- <div class="button-container m-3">
+            <a class="btn btn-primary" href="{% url 'get_id_card' id_number=participant.id_number id_type='spouse' %}">Get Spouse ID Card</a>
+        </div> -->
     </div>
     {% endif %}
 </div>

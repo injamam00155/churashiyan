@@ -13,6 +13,7 @@ from django.db.models import Count
 from .forms import ParticipantForm
 from .models import *
 from django.db.models import Max
+import cloudinary
 
 
 def home(request):
@@ -75,7 +76,7 @@ def view_id_card(request, id_number):
     # print(font_size)
     # print(font_top)
 
-    template = get_template('id_template.html')
+    template = 'id_template.html'
 
     id=participant.id_number
     if id:
@@ -87,54 +88,78 @@ def view_id_card(request, id_number):
         'font_top':font_top,
     }
 
-    return render(request, 'id_template.html', context)
+    return render(request, template, context)
 
 
 
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from django.shortcuts import get_object_or_404
-from xhtml2pdf import pisa
+import reportlab
+from reportlab.graphics import renderPDF
+import svglib.svglib as svglib
 from io import BytesIO
-from .models import Participant  # Import the Participant model (adjust the import as per your model location)
+import svglib.svglib as svglib
+from io import BytesIO
+from reportlab.lib.pagesizes import portrait  # Import portrait for custom page size
+from reportlab.lib.units import inch  # Import inch to set dimensions in points
+from django.template.loader import render_to_string
+from reportlab.lib.pagesizes import letter  # Import your desired page size
 
-def svg_to_pdf(svg_code):
+
+
+def svg_to_pdf(svg_code, page_size=letter):
     # Create a PDF buffer
     pdf_buffer = BytesIO()
 
-    # Convert SVG to PDF using xhtml2pdf
-    pisa_status = pisa.CreatePDF(svg_code, pdf_buffer)
+    # Convert SVG to PDF using reportlab's svglib
+    drawing = svglib.svg2rlg(BytesIO(svg_code.encode('utf-8')))
+    pdf_canvas = reportlab.pdfgen.canvas.Canvas(pdf_buffer, pagesize=page_size)  # Set the page size
+    reportlab.graphics.renderPDF.draw(drawing, pdf_canvas, 0, 0)
 
-    print(pisa_status)
-    # Check if the PDF generation was successful
-    if not pisa_status.err:
-        return pdf_buffer.getvalue()
-    else:
-        return None
+    # Save the PDF to the buffer
+    pdf_canvas.save()
+
+    # Return the PDF buffer
+    return pdf_buffer.getvalue()
+
+
+# ... (other imports and code)
 
 def get_id_card(request, id_type, id_number):
-    # Fetch the participant based on the id_number
     participant = get_object_or_404(Participant, id_number=id_number)
+    school_length=len(str(participant.school_name))
+    font_size=17
+    font_top=272
+
+    if school_length > 23:
+        font_size -= (school_length - 23) // 7
+        font_top -= ((school_length - 23) // 7)*0.1
+
+    # print(school_length)
+    # print(font_size)
+    # print(font_top)
+
+    template = 'id_template.html'
+
     id=participant.id_number
     if id:
         id = str(id).zfill(3)
+
     context = {
         'participant': participant,
         'id':id,
+        'font_size':font_size,
+        'font_top':font_top,
+
     }
-    if id_type == 'own':
+
+    if(id_type=='own'):
         # Render the SVG template with the participant's data
-        svg_code = render_to_string('id_participant.html', context)
-
-    elif id_type == 'spouse':
+        svg_code = render_to_string('sample.html', context)
+    elif(id_type=='spouse'):
         # Render the SVG template with the spouse's data
-        svg_code = render_to_string('id_spouse.html', context)
-  
-    else:
-        return HttpResponse("Invalid id_type")
+        svg_code = render_to_string('sample.html', context)
 
-    # Convert SVG to PDF
-    pdf_data = svg_to_pdf(svg_code)
+    # Convert SVG to PDF with the desired page size (e.g., letter)
+    pdf_data = svg_to_pdf(svg_code, page_size=letter)  # You can pass other page sizes as needed
 
     if pdf_data:
         # Create the HTTP response with PDF content
@@ -143,83 +168,50 @@ def get_id_card(request, id_type, id_number):
         return response
     else:
         return HttpResponse("PDF generation failed.")
-    
 
 
+# ... (other imports and code)
 
+# def svg_to_pdf(svg_code, page_size):
+#     # Create a PDF buffer
+#     pdf_buffer = BytesIO()
 
-# # -----------------------------------------------------
-# import os
-# from django.conf import settings
-# from django.http import HttpResponse
-# from django.template.loader import get_template
-# from xhtml2pdf import pisa
-# from django.contrib.staticfiles import finders
+#     # Convert SVG to PDF using reportlab's svglib
+#     drawing = svglib.svg2rlg(BytesIO(svg_code.encode('utf-8')))
+#     pdf_canvas = reportlab.pdfgen.canvas.Canvas(pdf_buffer, pagesize=page_size)  # Set the custom page size
+#     reportlab.graphics.renderPDF.draw(drawing, pdf_canvas, 0, 0)
 
+#     # Save the PDF to the buffer
+#     pdf_canvas.save()
 
-# def link_callback(uri, rel):
-#     """
-#     Convert HTML URIs to absolute system paths so xhtml2pdf can access those
-#     resources
-#     """
-#     result = finders.find(uri)
-#     if result:
-#             if not isinstance(result, (list, tuple)):
-#                     result = [result]
-#             result = list(os.path.realpath(path) for path in result)
-#             path=result[0]
-#     else:
-#             sUrl = settings.STATIC_URL        # Typically /static/
-#             sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-#             mUrl = settings.MEDIA_URL         # Typically /media/
-#             mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
-    
-#             if uri.startswith(mUrl):
-#                     path = os.path.join(mRoot, uri.replace(mUrl, ""))
-#             elif uri.startswith(sUrl):
-#                     path = os.path.join(sRoot, uri.replace(sUrl, ""))
-#             else:
-#                     return uri
-    
-#     # make sure that file exists
-#     if not os.path.isfile(path):
-#             raise Exception(
-#                     'media URI must start with %s or %s' % (sUrl, mUrl)
-#             )
-#     return path
+#     # Return the PDF buffer
+#     return pdf_buffer.getvalue()
 
 # def get_id_card(request, id_type, id_number):
+#     # Fetch the participant based on the id_number
 #     participant = get_object_or_404(Participant, id_number=id_number)
+#     id = str(participant.id_number).zfill(3)
 
-#     if id_type == 'own':
-#         # Render the SVG template with the participant's data
-#         template_path = 'id_participant.html'
-#         # svg_code = render_to_string('id_participant.html', {'participant': participant})
+#     context = {
+#         'participant': participant,
+#         'id': id,
+#     }
 
-#     elif id_type == 'spouse':
-#         # Render the SVG template with the spouse's data
-#         template_path = 'id_spouse.html'
-#         # svg_code = render_to_string('id_spouse.html', {'participant': participant})
+#     # Render the SVG template with the participant's data
+#     svg_code = render_to_string('sample.html', context)
+
+#     # Set the custom page size (e.g., 3.5x5 inches)
+#     custom_page_width = 3.5 * inch
+#     custom_page_height = 5 * inch
+#     custom_page_size = (custom_page_width, custom_page_height)
+
+#     # Convert SVG to PDF with the custom page size
+#     pdf_data = svg_to_pdf(svg_code, page_size=custom_page_size)
+
+#     if pdf_data:
+#         # Create the HTTP response with PDF content
+#         response = HttpResponse(pdf_data, content_type='application/pdf')
+#         response['Content-Disposition'] = f'filename="{id_number}_{id_type}_id_card.pdf"'
+#         return response
 #     else:
-#         return HttpResponse("Invalid id_type")
-    
-#     context = {'participant': participant}
-#     # Create a Django response object, and specify content_type as pdf
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-#     # find the template and render it.
-#     template = get_template(template_path)
-#     html = template.render(context)
-#     # print(html)
-#     # create a pdf
-#     pisa_status = pisa.CreatePDF(
-#        html, dest=response, link_callback=link_callback)
-#     # if error then show some funny view
-#     if pisa_status.err:
-#        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
-
-
-
-
-
+#         return HttpResponse("PDF generation failed.")

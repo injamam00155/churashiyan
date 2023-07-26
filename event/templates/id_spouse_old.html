@@ -1,8 +1,9 @@
+{% load static %} 
 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="378" height="540">
+  width="252" height="360">
   <defs>
     <clipPath id="clippath">
-      <rect width="378" height="540" rx="14.4" ry="14.4" fill="none" />
+      <rect width="252" height="360" rx="14.4" ry="14.4" fill="none" />
     </clipPath>
     <linearGradient id="linear-gradient" x1="35.29" y1="43.87" x2="56.41" y2="34.14" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#98d3b9" />
@@ -24,10 +25,14 @@
   </defs>
 
 <!-- Image is Here -->
-
-  <image class ="image-container" x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
+{%if participant.spouse_image%}
+  <image  x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
   xlink:href="{{ participant.spouse_image.url }}" />
+{%else%}
 
+<image  x="60" y="115" width="130" height="130" rx="6.31" ry="6.31"
+  xlink:href="{% static 'unknown.jpg' %}" />
+{%endif%}
 <!-- Image Ends -->
 
 
@@ -766,12 +771,12 @@
   <!-- Details Goes Here -->
 
 <text  fill="#c6a14a"
-  font-family="ArialRoundedMTBold, 'Arial Rounded MT Bold'" font-size="17" text-anchor="middle"
+  font-family="ArialRoundedMTBold, 'Arial Rounded MT Bold'" font-size="19" text-anchor="middle"
   dominant-baseline="middle">
-<tspan x="50%" y="250">{{ participant.name }}</tspan>
+<tspan x="50%" y="260">{{ participant.spouse_name }}</tspan>
 </text>
   
-<text  fill="#c6a14a"
+<!-- <text  fill="#c6a14a"
   font-family="ArialRoundedMTBold, 'Arial Rounded MT Bold'" font-size="17" text-anchor="middle"
   dominant-baseline="middle">
     <tspan x="50%" y="272">School: {{ participant.school_name }}</tspan>
@@ -781,12 +786,12 @@
   font-family="ArialRoundedMTBold, 'Arial Rounded MT Bold'" font-size="17" text-anchor="middle"
   dominant-baseline="middle">
     <tspan x="50%" y="292">District: {{ participant.district }}</tspan>
-  </text>
+  </text> -->
   
   <text  fill="#c6a14a"
-  font-family="ArialRoundedMTBold, 'Arial Rounded MT Bold'" font-size="17" text-anchor="middle"
+  font-family="ArialRoundedMTBold, 'Arial Rounded MT Bold'" font-size="19" text-anchor="middle"
   dominant-baseline="middle">
-    <tspan x="50%" y="312">ID No. S-{{ id }}</tspan>
+    <tspan x="50%" y="290">ID No. S-{{ id }}</tspan>
   </text>
   
 

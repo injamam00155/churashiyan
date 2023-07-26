@@ -1,34 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Generate PDF using JavaScript</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-</head>
-<body>
-    <!-- Your content goes here -->
-    <div id="content">
-        <h1>Generate PDF Example</h1>
-        <p>This is a sample content that will be saved as PDF.</p>
-    </div>
+<svg id="uuid-736bc4d1-39e5-4207-b490-7e6ceeb30724" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 485.53 687">
 
-    <!-- Generate PDF button -->
-    <button onclick="generatePDF()">Generate PDF</button>
+  <image x="135" y="230" width="220" height="220" rx="6.31" ry="6.31" mask="url(#imageMask)"
+  xlink:href="{{ part_image_url }}" />
 
-    <script>
-        function generatePDF() {
-            const pdf = new jsPDF();
 
-            // Get the content div and convert it to a canvas using html2canvas
-            const content = document.getElementById('content');
-            html2canvas(content).then(function (canvas) {
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-                pdf.save('generated_document.pdf');
-            });
-        }
-    </script>
-</body>
-</html>
+  </svg>
