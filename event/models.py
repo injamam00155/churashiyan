@@ -7,6 +7,11 @@ def get_upload_path(instance, filename):
     return os.path.join('uploads', 'participants', str(instance.id), filename)
 
 class Participant(models.Model):
+    SPOUSE_GOING_CHOICES = (
+        ('Y', 'Yes'),
+        ('N', 'No'),
+    )
+
     DRIVER_COMING_CHOICES = (
         ('Y', 'Yes'),
         ('N', 'No'),
@@ -18,7 +23,7 @@ class Participant(models.Model):
     )
     TRANSPORT_CHOICES = (
         ('launch', 'Launch'),
-        ('bus', 'Bus'),
+        ('self', 'Self'),
     )
 
     PROFESSION_CHOICES = (
@@ -60,6 +65,7 @@ class Participant(models.Model):
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='M')
     blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default= 'B+')
     spouse_name = models.CharField(max_length=100, null=True , blank=True)
+    spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='N')
     driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='N')
     participant_image = models.ImageField(upload_to='', blank=True)
     spouse_image = models.ImageField(upload_to='', blank=True)
@@ -83,13 +89,13 @@ class Participant(models.Model):
         super(Participant, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-            if self.name and self.spouse_name and self.driver_coming=='Y':
+            if self.name and self.spouse_coming=='Y' and self.driver_coming=='Y':
                  self.amount = 2500
-            elif self.name and self.spouse_name and self.driver_coming=='N':
+            elif self.name and self.spouse_coming=='Y' and self.driver_coming=='N':
                 self.amount = 2000
-            if self.name and not self.spouse_name and self.driver_coming=='Y':
+            if self.name and self.spouse_coming=='N' and self.driver_coming=='Y':
                  self.amount = 1500
-            elif self.name and not self.spouse_name and self.driver_coming=='N':
+            elif self.name and self._coming=='N' and self.driver_coming=='N':
                 self.amount = 1000
 
             if self.id_number is None:  # Check if the instance is being saved for the first time
