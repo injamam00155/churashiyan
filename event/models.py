@@ -93,7 +93,7 @@ class Participant(models.Model):
                 self.amount = 2000
             if self.name and self.spouse_coming=='N' and self.driver_coming=='Y':
                  self.amount = 1500
-            elif self.name and self._coming=='N' and self.driver_coming=='N':
+            elif self.name and self.spouse_coming=='N' and self.driver_coming=='N':
                 self.amount = 1000
 
             if self.id_number is None:  # Check if the instance is being saved for the first time
