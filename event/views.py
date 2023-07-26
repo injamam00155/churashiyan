@@ -56,7 +56,7 @@ def admin_verify_participants(request):
 
 
 def participants(request):
-    participants = Participant.objects.all()
+    participants = Participant.objects.all().order_by('id_number')
     context = {'participants': participants}
     return render(request, 'participants.html', context)
 
