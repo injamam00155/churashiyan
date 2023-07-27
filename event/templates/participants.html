@@ -17,9 +17,13 @@
         }, 5000);
     </script>
 {% endif %}
-<center><button class="btn btn-secondary btn-sm" onclick="toggleDetails()">
-    Show Details
-</button></center>
+
+<center>
+    <button class="btn btn-secondary btn-sm" onclick="toggleDetails()">
+        Show Details
+    </button>
+</center>
+
 <table id="participants-table" class="table m-2">
     <thead>
         <tr>
@@ -41,9 +45,6 @@
             <th class="hidden-cell" style="display: none;">Transport</th>
             <th>Transaction Verification</th>
             <th>View ID</th>
-
-
-
         </tr>
     </thead>
     <tbody>
@@ -94,21 +95,25 @@
                 {% endif %}
             </td>
             <td>
-            {% if participant.is_verified %}
-            <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
-            {% else %}
-            <!-- <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a> -->
-            Not Yet Verified
-            {% endif %}
+                {% if participant.is_verified %}
+                    <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
+                {% else %}
+                    Not Yet Verified
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<br><br><br><br><br><br>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
 <script>
+    $(document).ready(function() {
+        $('#participants-table').DataTable();
+    });
+
     function toggleDetails() {
         var hiddenCells = document.querySelectorAll('.hidden-cell');
         var showButton = hiddenCells[0].style.display === 'table-cell';
