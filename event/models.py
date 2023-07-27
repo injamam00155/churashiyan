@@ -8,13 +8,13 @@ def get_upload_path(instance, filename):
 
 class Participant(models.Model):
     SPOUSE_GOING_CHOICES = (
-        ('Y', 'Yes'),
-        ('N', 'No'),
+        ('Yes', 'Yes'),
+        ('No', 'No'),
     )
 
     DRIVER_COMING_CHOICES = (
-        ('Y', 'Yes'),
-        ('N', 'No'),
+        ('Yes', 'Yes'),
+        ('No', 'No'),
     )
 
     GENDER_CHOICES = (
@@ -63,8 +63,8 @@ class Participant(models.Model):
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='M')
     blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default= 'B+')
     spouse_name = models.CharField(max_length=28, null=True , blank=True)
-    spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='N')
-    driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='N')
+    spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='No')
+    driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='No')
     participant_image = models.ImageField(upload_to='', blank=True)
     spouse_image = models.ImageField(upload_to='', blank=True)
     # paid_via = models.CharField(max_length=20)
@@ -87,13 +87,13 @@ class Participant(models.Model):
         super(Participant, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-            if self.name and self.spouse_coming=='Y' and self.driver_coming=='Y':
+            if self.name and self.spouse_coming=='Yes' and self.driver_coming=='Yes':
                  self.amount = 2500
-            elif self.name and self.spouse_coming=='Y' and self.driver_coming=='N':
+            elif self.name and self.spouse_coming=='Yes' and self.driver_coming=='No':
                 self.amount = 2000
-            if self.name and self.spouse_coming=='N' and self.driver_coming=='Y':
+            if self.name and self.spouse_coming=='No' and self.driver_coming=='Yes':
                  self.amount = 1500
-            elif self.name and self.spouse_coming=='N' and self.driver_coming=='N':
+            elif self.name and self.spouse_coming=='No' and self.driver_coming=='No':
                 self.amount = 1000
 
             if self.id_number is None:  # Check if the instance is being saved for the first time
