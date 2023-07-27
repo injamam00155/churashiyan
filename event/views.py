@@ -110,7 +110,6 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen.canvas import Canvas
 from django.templatetags.static import static
 from reportlab.graphics.shapes import Path
-from svgpathtools import parse_path
 
 
 
@@ -127,8 +126,9 @@ def svg_to_pdf(svg_code,participant, page_size=letter):
     drawing = svglib.svg2rlg(BytesIO(svg_code.encode('utf-8')))
     pdf_canvas = Canvas(pdf_buffer, pagesize=(485.53, 687))  # Set the page size
     reportlab.graphics.renderPDF.draw(drawing, pdf_canvas, 0, 0)
-
     
+    
+
     pdf_canvas.drawImage('static/logo1.png', 32, 550, width=100, height=100, mask='auto')
     pdf_canvas.drawImage('static/logo2.png', 352, 550, width=100, height=100, mask='auto')
 
