@@ -1,31 +1,140 @@
-<!-- templates/your_template.html -->
-
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Participants{% endblock %}
 
 {% block content %}
-<div class="cards-wrapper">
-    <!-- Participant ID -->
-    <div class="card-container">
-        <div class="svg-container m-3">
-            {% include 'id_participant.html' %}
-            <!-- SVG content for the participant's ID card -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success">
+            {{ message }}
         </div>
-        <div class="button-container m-3">
-            <a class="btn btn-primary" href="{% url 'get_id_card' id_number=participant.id_number id_type='own' %}">Get Own ID Card</a>
-        </div>
-    </div>
+    {% endfor %}
+    <script>
+        setTimeout(function() {
+            var alert = document.querySelector('.alert');
+            alert.style.display = 'none';
+        }, 5000);
+    </script>
+{% endif %}
 
-    <!-- Spouse ID -->
-    {% if participant.spouse_coming=='Yes' %}
-    <div class="card-container">
-        <div class="svg-container m-3">
-            {% include 'id_spouse.html' %}
-            <!-- SVG content for the spouse's ID card -->
-        </div>
-        <div class="button-container m-3">
-            <a class="btn btn-primary" href="{% url 'get_id_card' id_number=participant.id_number id_type='spouse' %}">Get Spouse ID Card</a>
-        </div>
-    </div>
-    {% endif %}
-</div>
+<center>
+    <button class="btn btn-secondary btn-sm" onclick="toggleDetails()">
+        Show Details
+    </button>
+</center>
+
+<table id="participants-table" class="table m-2">
+    <thead>
+        <tr>
+            <th>ID Number</th>
+            <th>Participant Picture</th>
+            <th>Name</th>
+            <th>Spouse Picture</th>
+            <th>Spouse Name</th>
+            <th>Spouse Coming</th>
+            <th>District</th>
+            <th>Contact Number</th>
+            <!-- Initially hidden headers -->
+            <th class="hidden-cell" style="display: none;">School Name</th>
+            <th class="hidden-cell" style="display: none;">Email</th>
+            <th class="hidden-cell" style="display: none;">Profession</th>
+            <th class="hidden-cell" style="display: none;">Gender</th>
+            <th class="hidden-cell" style="display: none;">Blood Group</th>
+            <th class="hidden-cell" style="display: none;">Driver Coming</th>
+            <th class="hidden-cell" style="display: none;">Transport</th>
+            <th>Transaction Verification</th>
+            <th>View ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+        <tr>
+            <!-- Display initially visible fields -->
+            <td>{{ participant.id_number }}</td>
+            <td>
+                {% if participant.participant_image %}
+                <div class="image-container">
+                    <img src="{{ participant.participant_image.url }}" alt="Participant Picture">
+                </div>
+                {% else %}
+                <div class="image-container">
+                    <img src="{% static 'unknown.jpg' %}" alt="Spouse Picture">
+                </div>
+                {% endif %}
+            </td>
+            <td>{{ participant.name }}</td>
+            <td>
+                {% if participant.spouse_image %}
+                <div class="image-container">
+                    <img src="{{ participant.spouse_image.url }}" alt="Spouse Picture">
+                </div>
+                {% else %}
+                <div class="image-container">
+                    <img src="{% static 'unknown.jpg' %}" alt="Spouse Picture">
+                </div>
+                {% endif %}
+            </td>
+            <td>{{ participant.spouse_name }}</td>
+            <td>{{ participant.spouse_coming }}</td>
+            <td>{{ participant.district }}</td>
+            <td>{{ participant.contact_number }}</td>
+            <!-- Initially hidden fields -->
+            <td class="hidden-cell" style="display: none;">{{ participant.school_name }}</td>
+            <td class="hidden-cell" style="display: none;">{{ participant.email }}</td>
+            <td class="hidden-cell" style="display: none;">{{ participant.profession }}</td>
+            <td class="hidden-cell" style="display: none;">{{ participant.gender }}</td>
+            <td class="hidden-cell" style="display: none;">{{ participant.blood_group }}</td>
+            <td class="hidden-cell" style="display: none;">{{ participant.transport }}</td>
+            <td class="hidden-cell" style="display: none;">{{ participant.driver_coming }}</td>
+            <td >
+                {% if participant.is_verified %}
+                    <span class="badge badge-success">Verified</span>
+                {% else %}
+                    <span class="badge badge-danger">Not Verified</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if participant.is_verified %}
+                    <a href="{% url 'view_id_card' participant.id_number %}" class="btn btn-primary">View ID Card</a>
+                {% else %}
+                    Not Yet Verified
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br><br><br><br><br><br>
+
+<!-- First, load the full version of jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Then, load the DataTables library -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<!-- Also, make sure to include the CSS for DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+
+<script>
+    $(document).ready(function() {
+        $('#participants-table').DataTable();
+    });
+
+    function toggleDetails() {
+        var hiddenCells = document.querySelectorAll('.hidden-cell');
+        var showButton = hiddenCells[0].style.display === 'table-cell';
+        var buttonText = showButton ? 'Show Details' : 'Hide Details';
+
+        hiddenCells.forEach(function(cell) {
+            cell.style.display = showButton ? 'none' : 'table-cell';
+        });
+
+        var toggleButton = document.querySelector('.btn-secondary');
+        toggleButton.innerText = buttonText;
+    }
+</script>
+
 {% endblock %}
