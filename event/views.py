@@ -1,19 +1,33 @@
+import cloudinary
+import reportlab
+import cloudinary.api
+import requests
+import svglib.svglib as svglib
 
-from reportlab.lib.pagesizes import letter
+
+from reportlab.lib.pagesizes import letter,portrait, landscape, A4
+from reportlab.lib.units import inch  # Import inch to set dimensions in points
 from reportlab.pdfgen import canvas
-# import cairosvg
-from .models import Participant  # Import your Participant model
+from reportlab.graphics import renderPDF
+from reportlab.graphics.shapes import Path
+from reportlab.pdfgen.canvas import Canvas
+from PIL import Image
+from io import BytesIO
+from django.template.loader import render_to_string
+from django.templatetags.static import static
+from django.http import HttpResponse
+from reportlab.lib.utils import ImageReader
+from django.db.models import Max
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
 from django.template.loader import get_template
-from .models import Participant
 from django.contrib import messages
 from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import Count
 from .forms import ParticipantForm
+from .models import Participant 
+from .models import Participant
 from .models import *
-from django.db.models import Max
-import cloudinary
 
 
 def home(request):
@@ -92,26 +106,6 @@ def view_id_card(request, id_number):
 
 
 
-import reportlab
-from reportlab.graphics import renderPDF
-import svglib.svglib as svglib
-from io import BytesIO
-from django.template.loader import render_to_string
-from reportlab.pdfgen import canvas
-from django.http import HttpResponse
-from reportlab.lib.pagesizes import portrait  # Import portrait for custom page size
-from reportlab.lib.units import inch  # Import inch to set dimensions in points
-from reportlab.lib.pagesizes import letter  # Import your desired page size
-from reportlab.lib.pagesizes import letter, landscape
-from reportlab.lib.pagesizes import A4
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.utils import ImageReader
-from reportlab.pdfgen.canvas import Canvas
-from django.templatetags.static import static
-from reportlab.graphics.shapes import Path
-from PIL import Image
-import requests
-import cloudinary.api
 
 
 
@@ -141,7 +135,7 @@ def svg_to_pdf(svg_code,participant,id_type, page_size=letter):
 
     # Download the image from the URL
     image_info = cloudinary.api.resource(image_id)
-    
+
     # print(image_info)
     image_url = image_info['url']
     image_width = image_info['width']
