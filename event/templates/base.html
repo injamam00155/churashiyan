@@ -14,15 +14,33 @@
 
 
     <style>
-        .navbar-nav .nav-link {
-            font-size: 35px;
-            padding-left: 5px;
-            padding-right: 5px;
-        }
+        /* Custom styles for the navigation bar */
+    .navbar {
+        border-bottom: 2px solid #fff; /* White border at the bottom of the navigation bar */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle box shadow */
+    }
+
+    .topitems {
+        font-size: 24px; /* Font size for the navigation links */
+        padding: 10px 20px; /* Padding for better spacing */
+        border: 2px solid #fff; /* White border for the links */
+        border-radius: 8px; /* Border radius for rounded corners */
+        margin-right: 10px; /* Right margin for spacing between links */
+        color: #bcbcbc; /* Default font color */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transitions for background and text color */
+    }
+
+    .topitems:hover {
+        background-color: #a9a5a56a; /* Inverted background color on hover */
+
+    }
+
+
 
         /* Center the footer texts */
         .footer-text {
             text-align: center;
+            font-size: large;
         }
 
         .image-container {
@@ -181,12 +199,12 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-dark"
+    <nav class="navbar navbar-expand navbar-dark bg-dark text-white"
         style="position: fixed; top: 0; left: 0; width: 100%; z-index: 20;">
         <div class="navbar-nav">
-            <a class="nav-link" href="{% url 'home' %}">Home</a>
-            <a class="nav-link" href="{% url 'registration' %}">Registration</a>
-            <a class="nav-link" href="{% url 'participants' %}">Participants</a>
+            <a class="nav-link topitems" href="{% url 'home' %}">Home</a>
+            <a class="nav-link topitems" href="{% url 'registration' %}">Registration</a>
+            <a class="nav-link topitems" href="{% url 'participants' %}">Participants</a>
         </div>
     </nav>
 
@@ -207,11 +225,15 @@
 
 
     <footer class="navbar navbar-expand navbar-dark bg-dark fixed-bottom">
-        <div class="navbar-nav mx-auto justify-content-between w-100 px-5">
-            <div class="nav-item nav-link text-white mx-3 footer-text">All rights reserved by Pirojpur Churashiyan</div>
-            <div class="nav-item nav-link text-white mx-3 footer-text">Developed by injamam00155</div>
+        <div class="navbar-nav mx-auto justify-content-between w-100 px-3" style="display:flex; align-items:center; justify-content:center;">
+            <div class="nav-item nav-link text-white mx-3 py-0  my-0 footer-text">All rights reserved by Pirojpur Churashiyan</div>
+            <div class="nav-item nav-link text-white mx-3 py-0 my-0 footer-text">
+                <p>Developed by injamam00155</p>
+                <p>email: injamam00155 ¤ contact: 01319315405</p>
+            </div>
         </div>
     </footer>
+    
 
 
 
