@@ -96,24 +96,55 @@ import reportlab
 from reportlab.graphics import renderPDF
 import svglib.svglib as svglib
 from io import BytesIO
-import svglib.svglib as svglib
-from io import BytesIO
+from django.template.loader import render_to_string
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 from reportlab.lib.pagesizes import portrait  # Import portrait for custom page size
 from reportlab.lib.units import inch  # Import inch to set dimensions in points
-from django.template.loader import render_to_string
 from reportlab.lib.pagesizes import letter  # Import your desired page size
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.pagesizes import A4
+
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen.canvas import Canvas
+from django.templatetags.static import static
+from reportlab.graphics.shapes import Path
+from svgpathtools import parse_path
 
 
 
-def svg_to_pdf(svg_code, page_size=letter):
+
+
+# PARTLY WORKING
+
+
+def svg_to_pdf(svg_code,participant, page_size=letter):
     # Create a PDF buffer
     pdf_buffer = BytesIO()
-
+    
     # Convert SVG to PDF using reportlab's svglib
     drawing = svglib.svg2rlg(BytesIO(svg_code.encode('utf-8')))
-    pdf_canvas = reportlab.pdfgen.canvas.Canvas(pdf_buffer, pagesize=page_size)  # Set the page size
+    pdf_canvas = Canvas(pdf_buffer, pagesize=(485.53, 687))  # Set the page size
     reportlab.graphics.renderPDF.draw(drawing, pdf_canvas, 0, 0)
 
+    
+    pdf_canvas.drawImage('static/logo1.png', 32, 550, width=100, height=100, mask='auto')
+    pdf_canvas.drawImage('static/logo2.png', 352, 550, width=100, height=100, mask='auto')
+
+    # Define the SVG path for the clipping path
+    
+    # Convert the SVG path to clip path points
+    clip_path_points = [
+        (0, 325),  # Top-left corner
+        (290, 325),  # Top-right corner
+        (0, 500),  # Bottom-right corner
+        (290, 500)   # Bottom-left corner
+]
+    # pdf_canvas.saveState()
+    # canvas.clipPath(clip_path_points, stroke=1, fill=0, fillMode='FILL_EVEN_ODD')
+    # pdf_canvas.drawImage(participant.participant_image.url, 150, 300, width=130, height=130)
+    # pdf_canvas.restoreState()
     # Save the PDF to the buffer
     pdf_canvas.save()
 
@@ -153,13 +184,14 @@ def get_id_card(request, id_type, id_number):
 
     if(id_type=='own'):
         # Render the SVG template with the participant's data
-        svg_code = render_to_string('sample.html', context)
+        svg_code = render_to_string('id_participant.html', context)
     elif(id_type=='spouse'):
         # Render the SVG template with the spouse's data
-        svg_code = render_to_string('sample.html', context)
+        svg_code = render_to_string('id_spouse.html', context)
 
     # Convert SVG to PDF with the desired page size (e.g., letter)
-    pdf_data = svg_to_pdf(svg_code, page_size=letter)  # You can pass other page sizes as needed
+    pdf_data = svg_to_pdf(svg_code,participant, page_size=letter)  # You can pass other page sizes as needed
+    # pdf_data = svg_to_pdf_with_canvas(svg_code, page_size=letter)  # You can pass other page sizes as needed
 
     if pdf_data:
         # Create the HTTP response with PDF content
@@ -168,50 +200,3 @@ def get_id_card(request, id_type, id_number):
         return response
     else:
         return HttpResponse("PDF generation failed.")
-
-
-# ... (other imports and code)
-
-# def svg_to_pdf(svg_code, page_size):
-#     # Create a PDF buffer
-#     pdf_buffer = BytesIO()
-
-#     # Convert SVG to PDF using reportlab's svglib
-#     drawing = svglib.svg2rlg(BytesIO(svg_code.encode('utf-8')))
-#     pdf_canvas = reportlab.pdfgen.canvas.Canvas(pdf_buffer, pagesize=page_size)  # Set the custom page size
-#     reportlab.graphics.renderPDF.draw(drawing, pdf_canvas, 0, 0)
-
-#     # Save the PDF to the buffer
-#     pdf_canvas.save()
-
-#     # Return the PDF buffer
-#     return pdf_buffer.getvalue()
-
-# def get_id_card(request, id_type, id_number):
-#     # Fetch the participant based on the id_number
-#     participant = get_object_or_404(Participant, id_number=id_number)
-#     id = str(participant.id_number).zfill(3)
-
-#     context = {
-#         'participant': participant,
-#         'id': id,
-#     }
-
-#     # Render the SVG template with the participant's data
-#     svg_code = render_to_string('sample.html', context)
-
-#     # Set the custom page size (e.g., 3.5x5 inches)
-#     custom_page_width = 3.5 * inch
-#     custom_page_height = 5 * inch
-#     custom_page_size = (custom_page_width, custom_page_height)
-
-#     # Convert SVG to PDF with the custom page size
-#     pdf_data = svg_to_pdf(svg_code, page_size=custom_page_size)
-
-#     if pdf_data:
-#         # Create the HTTP response with PDF content
-#         response = HttpResponse(pdf_data, content_type='application/pdf')
-#         response['Content-Disposition'] = f'filename="{id_number}_{id_type}_id_card.pdf"'
-#         return response
-#     else:
-#         return HttpResponse("PDF generation failed.")
