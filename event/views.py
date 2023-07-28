@@ -38,10 +38,10 @@ def home(request):
 def is_participant_unique(name_arg, spouse_name_arg, contact_number_arg, email_arg):
     # Check if any participant with the same name, spouse name, contact number, and email exists
     existing_participant = Participant.objects.filter(
-        Q(name=name_arg) &
-        Q(spouse_name=spouse_name_arg) &
-        Q(contact_number=contact_number_arg) &
-        Q(email=email_arg)
+        Q(name__iexact=name_arg) &
+        Q(spouse_name__iexact=spouse_name_arg) &
+        Q(contact_number__iexact=contact_number_arg) &
+        Q(email__iexact=email_arg)
     ).first()
 
     return not existing_participant
