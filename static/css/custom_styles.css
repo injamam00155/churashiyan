@@ -188,3 +188,22 @@ padding: 8px 12px;
     text-align: left;
 }
 
+
+    /* Styles for desktop */
+    @media (min-width: 992px) {
+        .custom-container {
+            max-width: 1140px; /* Adjust this value according to your needs */
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 8rem;
+        }
+    }
+
+    /* Styles for mobile */
+    @media (max-width: 991px) {
+        .custom-container {
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-bottom: 8rem;
+        }
+    }

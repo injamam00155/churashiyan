@@ -11,7 +11,24 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    function updateContainerClass() {
+        const containerElement = document.getElementById('custom-container');
+        const isMobile = window.innerWidth <= 767; // Set the breakpoint for mobile devices (adjust as needed)
 
+        if (isMobile) {
+            containerElement.classList.remove('container');
+            containerElement.classList.add('container-fluid');
+        } else {
+            containerElement.classList.remove('container-fluid');
+            containerElement.classList.add('container');
+        }
+    }
+
+    // Call the function on page load and when the window is resized
+    window.addEventListener('load', updateContainerClass);
+    window.addEventListener('resize', updateContainerClass);
+</script>
 <script>
         $(document).ready(function() {
             $('#result_list').DataTable({

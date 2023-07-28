@@ -46,6 +46,28 @@ def is_participant_unique(name_arg, spouse_name_arg, contact_number_arg, email_a
 
     return not existing_participant
 
+def generate_id_number():
+    # Fetch all existing ID numbers from the database
+    existing_id_numbers = Participant.objects.values_list('id_number', flat=True)
+
+    # Get the maximum ID number
+    max_id_number = max(existing_id_numbers, default=0)
+
+    # Create a set containing all possible ID numbers from 1 to the maximum ID number found
+    all_id_numbers = set(range(1, max_id_number + 1))
+
+    # Find the missing ID numbers by subtracting the existing ID numbers from the full set
+    missing_id_numbers = all_id_numbers - set(existing_id_numbers)
+
+    if missing_id_numbers:
+        # If there are missing ID numbers, choose the smallest one as the new ID number
+        new_id_number = min(missing_id_numbers)
+    else:
+        # If there are no missing ID numbers, set the new ID number as one greater than the maximum ID number found
+        new_id_number = max_id_number + 1
+
+    return new_id_number
+
 def registration(request):
     form = ParticipantForm()
 
@@ -57,13 +79,13 @@ def registration(request):
             # Check if the participant information is unique
             if is_participant_unique(participant.name, participant.spouse_name, participant.contact_number, participant.email):
                 # Get the maximum id_number from the Participant table
-                max_id_number = Participant.objects.aggregate(Max('id_number'))['id_number__max']
+                max_id_number = generate_id_number()
 
                 if max_id_number is None:
                     max_id_number = 1
 
                 # Generate the new id_number by incrementing the maximum value
-                participant.id_number = max_id_number + 1
+                participant.id_number = max_id_number
 
                 participant.save()
                 messages.success(request, 'Registration successful!')
