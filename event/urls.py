@@ -11,3 +11,4 @@ urlpatterns = [
     path('get-id-card/<int:id_number>/<str:id_type>/', views.get_id_card, name='get_id_card'),
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
