@@ -4,6 +4,20 @@
 
 {% block content %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <script>
+        setTimeout(function() {
+            var alert = document.querySelector('.alert');
+            alert.style.display = 'none';
+        }, 5000);
+    </script>
+{% endif %}
+
 <div class="container mb-5 pb-5" style='margin-bottom: 4rem;'>
     <h1 class="text-center bg-primary text-white p-3">Event Registration</h1>
     <div class="p-3 rounded mb-4" style="background-color: rgba(0, 123, 255, 0.15);">

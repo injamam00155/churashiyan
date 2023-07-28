@@ -24,6 +24,7 @@ from django.template.loader import get_template
 from django.contrib import messages
 from django.shortcuts import render, redirect,get_object_or_404
 from django.db.models import Count
+from django.db.models import Q
 from .forms import ParticipantForm
 from .models import Participant 
 from .models import Participant
@@ -34,6 +35,17 @@ def home(request):
     return render(request, 'home.html')
 
 
+def is_participant_unique(name_arg, spouse_name_arg, contact_number_arg, email_arg):
+    # Check if any participant with the same name, spouse name, contact number, and email exists
+    existing_participant = Participant.objects.filter(
+        Q(name=name_arg) &
+        Q(spouse_name=spouse_name_arg) &
+        Q(contact_number=contact_number_arg) &
+        Q(email=email_arg)
+    ).first()
+
+    return not existing_participant
+
 def registration(request):
     form = ParticipantForm()
 
@@ -42,18 +54,24 @@ def registration(request):
         if form.is_valid():
             participant = form.save(commit=False)
 
-            # Get the maximum id_number from the Participant table
-            max_id_number = Participant.objects.aggregate(Max('id_number'))['id_number__max']
+            # Check if the participant information is unique
+            if is_participant_unique(participant.name, participant.spouse_name, participant.contact_number, participant.email):
+                # Get the maximum id_number from the Participant table
+                max_id_number = Participant.objects.aggregate(Max('id_number'))['id_number__max']
 
-            if max_id_number is None:
-                max_id_number = 0
+                if max_id_number is None:
+                    max_id_number = 1
 
-            # Generate the new id_number by incrementing the maximum value
-            participant.id_number = max_id_number + 1
+                # Generate the new id_number by incrementing the maximum value
+                participant.id_number = max_id_number + 1
 
-            participant.save()
-            messages.success(request, 'Registration successful!')
-            return redirect('participants')
+                participant.save()
+                messages.success(request, 'Registration successful!')
+                return redirect('participants')
+            else:
+                # Display an error message if participant information is not unique
+                messages.error(request, 'Participant with the same name, spouse name, contact number, and email already exists!')
+                return redirect('registration')
 
     return render(request, 'registration.html', {'form': form})
 
