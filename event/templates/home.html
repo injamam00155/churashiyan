@@ -160,21 +160,8 @@
                 <hr>
             </div>
         </div>
-        <div class=" rounded mt-4 mb-3" style="background-color: rgba(0, 123, 255, 0.15);">
-            <h1 class="mt-5 text-center bg-primary text-white p-2">Registration Fees</h1>
-            <div class="p-4">
-            <h2>রেজিস্ট্রেশন ফিস জন প্রতি:</h2>
-            <hr>
-            <ul>
-                <li class="lead">চুরাশিয়ান - ১০০০/-</li>
-                <hr>
-                <li class="lead">স্পাউজ।  - ১০০০/-</li>
-                <hr>
-                <li class="lead">ড্রাইভার।  - ৫০০/-</li>
-                <hr>
-            </ul>
-            </div>
-        </div>
+        
+        {% include 'registration_fees.html' %}
 
         <div class=" rounded mt-4 mb-3" style="background-color: rgba(0, 123, 255, 0.15);">
             <h1 class="mt-5 text-center bg-primary text-white p-2">Launch Cabin Booking Information</h1>
@@ -221,19 +208,7 @@
             </div>
         </div>
         
-        <div class=" rounded mt-4 mb-3" style="background-color: rgba(0, 123, 255, 0.15);">
-            <h1 class="mt-5 text-center bg-primary text-white p-2">Payment Information</h1>
-            <div class="p-4">
-                <h2>এই নাম্বার গুলেতে রেজিস্ট্রেশন এর জন্য বিকাশ করুন</h2>
-                <hr>
-                <ol>
-                    <li class="lead">লায়ন মিজানুর রহমান - বিকাশ: 01711-530423</li>
-                    <hr>
-                    <li class="lead">মাহবুবুল হক (মাহবুব) - বিকাশ: 01762-085059</li>
-                    <hr>
-                </ol>
-            </div>
-        </div>
+        {% include 'payment_information.html' %}
         
         <div class=" rounded mt-4 mb-3" style="background-color: rgba(0, 123, 255, 0.15);" >
             <h1 class="mt-5 text-center bg-primary text-white p-2">Emergency Contact</h1>

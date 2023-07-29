@@ -5,27 +5,45 @@
 {% block content %}
 
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
-    <script>
-        setTimeout(function() {
-            var alert = document.querySelector('.alert');
-            alert.style.display = 'none';
-        }, 5000);
-    </script>
+{% for message in messages %}
+<div class="alert alert-danger">
+    {{ message }}
+</div>
+{% endfor %}
+<script>
+    setTimeout(function () {
+        var alert = document.querySelector('.alert');
+        alert.style.display = 'none';
+    }, 5000);
+</script>
 {% endif %}
 
+
+
+
 <div class="container mb-5 pb-5" style='margin-bottom: 4rem;'>
-    <h1 class="text-center bg-primary text-white p-3">Event Registration</h1>
-    <div class="p-3 rounded mb-4" style="background-color: rgba(0, 123, 255, 0.15);">
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-12">
+                {% include 'registration_fees.html' %}
+            </div>
+            <div class="col-12">
+                {% include 'payment_information.html' %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class=" rounded mt-4 mb-5" style="background-color: rgba(0, 123, 255, 0.15);">
+        <h1 class="text-center bg-primary text-white p-3 ">Event Registration</h1>
+        <div class="p-3 rounded mb-4" style="background-color: rgba(0, 123, 255, 0.15);">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
     </div>
 </div>
 <br><br><br><br>
