@@ -21,7 +21,7 @@
 
 
 
-<div class="container mb-5 pb-5" style='margin-bottom: 4rem;'>
+<div class="container mb-5 pb-5" style="margin-bottom: 4rem;">
 
     <div class="container">
         <div class="row justify-content-between">
@@ -35,16 +35,128 @@
     </div>
 
 
-    <div class=" rounded mt-4 mb-5" style="background-color: rgba(0, 123, 255, 0.15);">
-        <h1 class="text-center bg-primary text-white p-3 ">Event Registration</h1>
+    <div class="rounded mt-4 mb-5" style="background-color: rgba(0, 123, 255, 0.15);">
+        <h1 class="text-center bg-primary text-white p-3">Event Registration</h1>
         <div class="p-3 rounded mb-4" style="background-color: rgba(0, 123, 255, 0.15);">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}" class="mb-1">{{ form.name.label }}</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.contact_number.id_for_label }}" class="mb-1">{{ form.contact_number.label }}</label>
+                    {{ form.contact_number }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}" class="mb-1">{{ form.email.label }}</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.district.id_for_label }}" class="mb-1">{{ form.district.label }}</label>
+                    {{ form.district }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.school_name.id_for_label }}" class="mb-1">{{ form.school_name.label }}</label>
+                    {{ form.school_name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.gender.id_for_label }}" class="mb-1">{{ form.gender.label }}</label>
+                    <div class="input-group">
+                        {{ form.gender }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.profession.id_for_label }}" class="mb-1">{{ form.profession.label }}</label>
+                    <div class="input-group">
+                        {{ form.profession }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.blood_group.id_for_label }}" class="mb-1">{{ form.blood_group.label }}</label>
+                    {{ form.blood_group }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.participant_image.id_for_label }}" class="mb-1">{{ form.participant_image.label }}</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="{{ form.participant_image.id_for_label }}" name="{{ form.participant_image.name }}">
+                        <label class="custom-file-label" for="{{ form.participant_image.id_for_label }}">Choose a Participant Image</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.spouse_name.id_for_label }}" class="mb-1">{{ form.spouse_name.label }}</label>
+                    {{ form.spouse_name }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.spouse_image.id_for_label }}" class="mb-1">{{ form.spouse_image.label }}</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="{{ form.spouse_image.id_for_label }}" name="{{ form.spouse_image.name }}">
+                        <label class="custom-file-label" for="{{ form.spouse_image.id_for_label }}">Choose a Spouse Image</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.spouse_coming.id_for_label }}" class="mb-1">{{ form.spouse_coming.label }}</label>
+                    <div class="input-group">
+                        {{ form.spouse_coming }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.driver_coming.id_for_label }}" class="mb-1">{{ form.driver_coming.label }}</label>
+                    <div class="input-group">
+                        {{ form.driver_coming }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.transaction_id.id_for_label }}" class="mb-1">{{ form.transaction_id.label }}</label>
+                    {{ form.transaction_id }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.paid_at.id_for_label }}" class="mb-1">{{ form.paid_at.label }}</label>
+                    <div class="input-group">
+                        {{ form.paid_at }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.transport.id_for_label }}" class="mb-1">{{ form.transport.label }}</label>
+                    <div class="input-group">
+                        {{ form.transport }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
+    
 </div>
 <br><br><br><br>
 {% endblock %}
