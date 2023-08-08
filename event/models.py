@@ -27,7 +27,6 @@ class Participant(models.Model):
     )
     TRANSPORT_CHOICES = (
         ('', '--------------'),
-        ('', '--------------'),
         ('launch', 'Launch'),
         ('self', 'Self'),
     )
@@ -61,26 +60,138 @@ class Participant(models.Model):
         ('মাহবুবুল হক (মাহবুব): 01762-085059', 'মাহবুবুল হক (মাহবুব): 01762-085059'),
     )
 
-    id_number = models.AutoField(primary_key=True, default=0)
-    name = models.CharField(max_length=28)
-    contact_number = models.CharField(max_length=20)
-    email = models.EmailField(null=True)
-    district = models.CharField(max_length=20,default='')
-    school_name = models.CharField(max_length=100, default='')
-    profession = models.CharField(max_length=10, choices=PROFESSION_CHOICES, default='',  validators=[RegexValidator('-')])
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='',  validators=[RegexValidator('-')])
-    blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default='',  validators=[RegexValidator('-')])
-    spouse_name = models.CharField(max_length=28, null=True , blank=True)
-    spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='',  validators=[RegexValidator('-')])
-    driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='',  validators=[RegexValidator('-')])
-    participant_image = models.ImageField(upload_to='', blank=True)
-    spouse_image = models.ImageField(upload_to='', blank=True)
+    id_number = models.AutoField(
+        primary_key=True, 
+        default=0
+        )
+
+    name = models.CharField(
+        max_length=28
+        )
+    
+    contact_number = models.CharField(
+        max_length=20
+        )
+    
+    email = models.EmailField(
+        null=True
+        )
+    
+    district = models.CharField(
+        max_length=20,
+        default=''
+        )
+    
+    school_name = models.CharField(
+        max_length=100, 
+        default=''
+        )
+    
+    profession = models.CharField(
+        max_length=10, 
+        choices=PROFESSION_CHOICES, 
+        default='',  
+        validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Profession field is required and should not be just hyphens.'
+            )
+        ]
+        )
+
+    gender = models.CharField(
+        max_length=6, 
+        choices=GENDER_CHOICES, default='',  
+        validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Profession field is required and should not be just hyphens.'
+            )
+        ]
+        )
+    
+    blood_group = models.CharField(
+        max_length=3, 
+        choices=BLOOD_GROUP_CHOICES, 
+        default='',  
+        validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Blood Group field is required and should not be just hyphens.'
+            )
+        ]
+        )
+    spouse_name = models.CharField(
+        max_length=28, 
+    null=True , blank=True)
+
+    spouse_coming = models.CharField(
+        max_length=3, 
+        choices=SPOUSE_GOING_CHOICES, 
+        default='',  
+        validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Spouse Coming is required and should not be just hyphens.'
+                )
+        ]
+        )
+    
+    driver_coming = models.CharField(
+        max_length=3, 
+        choices=DRIVER_COMING_CHOICES, 
+        default='',  
+                validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Driver Coming is required and should not be just hyphens.'
+                )
+                ]
+        )
+    
+    participant_image = models.ImageField(
+        upload_to='', 
+        blank=True
+        )
+
+    spouse_image = models.ImageField(
+        upload_to='', 
+        blank=True
+        )
     # paid_via = models.CharField(max_length=20)
-    paid_at = models.CharField(max_length=35, choices=PAID_AT_CHOICES, default='',  validators=[RegexValidator('-')])
-    transaction_id = models.CharField(max_length=10, null=True)
-    amount = models.IntegerField(default=1000)
-    transport = models.CharField(max_length=10, choices=TRANSPORT_CHOICES, default='',  validators=[RegexValidator('-')])
-    is_verified = models.BooleanField(default=False)
+    paid_at = models.CharField(
+        max_length=35, 
+        choices=PAID_AT_CHOICES, 
+        default='',  
+        validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Paid At is required and should not be just hyphens.'
+            )
+            ]
+        )
+    
+    transaction_id = models.CharField(
+        max_length=10, 
+        null=True
+        )
+    amount = models.IntegerField(
+        default=1000
+        )
+    transport = models.CharField(
+        max_length=10, 
+        choices=TRANSPORT_CHOICES, 
+        default='',  
+        validators=[
+            RegexValidator(
+                '^(?!-+$).*$',
+                message='Transport field is required and should not be just hyphens.'
+                )
+                ]
+                )
+    is_verified = models.BooleanField(
+        default=False
+        )
     
 
     def __str__(self):
