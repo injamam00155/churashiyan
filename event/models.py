@@ -1,6 +1,7 @@
 from django.db import models
 import os
 import cloudinary
+from django.core.validators import RegexValidator
 
 def get_upload_path(instance, filename):
     # Customize the upload path based on the instance's attributes
@@ -8,25 +9,31 @@ def get_upload_path(instance, filename):
 
 class Participant(models.Model):
     SPOUSE_GOING_CHOICES = (
+        ('', '--------------'),
         ('Yes', 'Yes'),
         ('No', 'No'),
     )
 
     DRIVER_COMING_CHOICES = (
+        ('', '--------------'),
         ('Yes', 'Yes'),
         ('No', 'No'),
     )
 
     GENDER_CHOICES = (
+        ('', '--------------'),
         ('Male', 'Male'),
         ('Female', 'Female'),
     )
     TRANSPORT_CHOICES = (
+        ('', '--------------'),
+        ('', '--------------'),
         ('launch', 'Launch'),
         ('self', 'Self'),
     )
 
     PROFESSION_CHOICES = (
+        ('', '--------------'),
         ('Service', 'Service'),
         ('Business', 'Business'),
         ('Engineer', 'Engineer'),
@@ -37,6 +44,7 @@ class Participant(models.Model):
     )
 
     BLOOD_GROUP_CHOICES = (
+        ('', '--------------'),
         ('A+', 'A+'),
         ('A-', 'A-'),
         ('B+', 'B+'),
@@ -48,6 +56,7 @@ class Participant(models.Model):
     )
 
     PAID_AT_CHOICES = (
+        ('', '--------------'),
         ('লায়ন মিজানুর রহমান: 01711-530423', 'লায়ন মিজানুর রহমান: 01711-530423'),
         ('মাহবুবুল হক (মাহবুব): 01762-085059', 'মাহবুবুল হক (মাহবুব): 01762-085059'),
     )
@@ -58,19 +67,19 @@ class Participant(models.Model):
     email = models.EmailField(null=True)
     district = models.CharField(max_length=20,default='')
     school_name = models.CharField(max_length=100, default='')
-    profession = models.CharField(max_length=10, choices=PROFESSION_CHOICES, default='Service')
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='M')
-    blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default= 'B+')
+    profession = models.CharField(max_length=10, choices=PROFESSION_CHOICES, default='',  validators=[RegexValidator('-')])
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='',  validators=[RegexValidator('-')])
+    blood_group = models.CharField(max_length=3, choices=BLOOD_GROUP_CHOICES, default='',  validators=[RegexValidator('-')])
     spouse_name = models.CharField(max_length=28, null=True , blank=True)
-    spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='No')
-    driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='No')
+    spouse_coming = models.CharField(max_length=3, choices=SPOUSE_GOING_CHOICES, default='',  validators=[RegexValidator('-')])
+    driver_coming = models.CharField(max_length=3, choices=DRIVER_COMING_CHOICES, default='',  validators=[RegexValidator('-')])
     participant_image = models.ImageField(upload_to='', blank=True)
     spouse_image = models.ImageField(upload_to='', blank=True)
     # paid_via = models.CharField(max_length=20)
-    paid_at = models.CharField(max_length=35, choices=PAID_AT_CHOICES, default='আমিরুল ইসলাম মিরন: 01716953986')
+    paid_at = models.CharField(max_length=35, choices=PAID_AT_CHOICES, default='',  validators=[RegexValidator('-')])
     transaction_id = models.CharField(max_length=10, null=True)
     amount = models.IntegerField(default=1000)
-    transport = models.CharField(max_length=10, choices=TRANSPORT_CHOICES, default= 'launch')
+    transport = models.CharField(max_length=10, choices=TRANSPORT_CHOICES, default='',  validators=[RegexValidator('-')])
     is_verified = models.BooleanField(default=False)
     
 

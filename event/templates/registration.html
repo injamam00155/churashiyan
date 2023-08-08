@@ -84,7 +84,14 @@
                 </div>
                 <div class="form-group">
                     <label for="{{ form.blood_group.id_for_label }}" class="mb-1">{{ form.blood_group.label }}</label>
-                    {{ form.blood_group }}
+                    <div class="input-group">
+                        {{ form.blood_group }}
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-chevron-down">▼</i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="{{ form.participant_image.id_for_label }}" class="mb-1">{{ form.participant_image.label }}</label>
@@ -92,7 +99,11 @@
                         <input type="file" class="custom-file-input" id="{{ form.participant_image.id_for_label }}" name="{{ form.participant_image.name }}">
                         <label class="custom-file-label" for="{{ form.participant_image.id_for_label }}">Choose a Participant Image</label>
                     </div>
+                    <img id="participant-image-preview" src="" alt="Participant Image" style="max-height: 200px; margin-top: 10px; display: none;">
+                    <p id="participant-image-name" style="display: none;"></p>
                 </div>
+                
+                
                 <div class="form-group">
                     <label for="{{ form.spouse_name.id_for_label }}" class="mb-1">{{ form.spouse_name.label }}</label>
                     {{ form.spouse_name }}
@@ -103,7 +114,11 @@
                         <input type="file" class="custom-file-input" id="{{ form.spouse_image.id_for_label }}" name="{{ form.spouse_image.name }}">
                         <label class="custom-file-label" for="{{ form.spouse_image.id_for_label }}">Choose a Spouse Image</label>
                     </div>
+                    <img id="spouse-image-preview" src="" alt="Spouse Image" style="max-height: 200px; margin-top: 10px; display: none;">
+                    <p id="spouse-image-name" style="display: none;"></p>
                 </div>
+                
+                
                 <div class="form-group">
                     <label for="{{ form.spouse_coming.id_for_label }}" class="mb-1">{{ form.spouse_coming.label }}</label>
                     <div class="input-group">

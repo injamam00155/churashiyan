@@ -78,3 +78,50 @@
         );
     });
     </script>
+<script>
+    // Function to display selected participant image
+    function showParticipantImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#participant-image-preview').attr('src', e.target.result);
+                $('#participant-image-preview').css('display', 'block');
+
+                // Show the name of the selected image
+                $('#participant-image-name').text(input.files[0].name);
+                $('#participant-image-name').css('display', 'block');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Bind the showParticipantImage function to the participant image input change event
+    $('#{{ form.participant_image.id_for_label }}').on('change', function() {
+        showParticipantImage(this);
+    });
+</script>
+<script>
+    // Function to display selected spouse image
+    function showSpouseImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#spouse-image-preview').attr('src', e.target.result);
+                $('#spouse-image-preview').css('display', 'block');
+
+                // Show the name of the selected image
+                $('#spouse-image-name').text(input.files[0].name);
+                $('#spouse-image-name').css('display', 'block');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Bind the showSpouseImage function to the spouse image input change event
+    $('#{{ form.spouse_image.id_for_label }}').on('change', function() {
+        showSpouseImage(this);
+    });
+</script>
+
+
+    
