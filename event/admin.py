@@ -5,6 +5,8 @@ from django.contrib import admin
 from event.models import Participant
 
 
+
+
 # Override the site header, browser tab title, and index page title
 admin.site.site_header = "পিরোজপুর চুরাশিয়ান মিলনমেলা"
 admin.site.site_title = "পিরোজপুর চুরাশিয়ান মিলনমেলা"
@@ -25,6 +27,8 @@ class ParticipantAdmin(admin.ModelAdmin):
         # Set 'is_verified' to False for selected instances
         queryset.update(is_verified=False)
     mark_unverified.short_description = 'Unverify Participant'
+
+    
     def delete_model(self, request, obj):
         # Call the model's delete method to handle associated image deletion
         obj.delete()
@@ -39,6 +43,45 @@ class ParticipantAdmin(admin.ModelAdmin):
         
         # Call the model's delete method to handle other aspects of deletion
         queryset.delete()
+
+
+
+    def save_model(self, request, obj, form, change):
+        # Check if the participant_image has changed
+        print(form.cleaned_data['participant_image'].name)
+        print(obj.participant_image.name)
+        if 'participant_image' in form.changed_data:
+            # Delete the old participant image from Cloudinary
+            if obj.participant_image:
+                print(obj.participant_image.name)  
+                cloudinary.uploader.destroy(obj.participant_image.name)
+
+            # Upload and update the participant_image with the new image
+            if form.cleaned_data['participant_image']:
+                response = cloudinary.uploader.upload(
+                    form.cleaned_data['participant_image'].read(),
+                    folder='media/',
+                    public_id=f"SP{obj.id_number}"
+                )
+                obj.participant_image = response['public_id']
+
+        # Similar process for spouse_image
+        if 'spouse_image' in form.changed_data:
+            if obj.spouse_image:
+                cloudinary.uploader.destroy(obj.spouse_image.name)
+            
+            if form.cleaned_data['spouse_image']:
+                response = cloudinary.uploader.upload(
+                    form.cleaned_data['spouse_image'].read(),
+                    folder='media/',
+                    # public_id=f"SP{obj.id_number}"
+                )
+                obj.spouse_image = response['public_id']
+
+        super().save_model(request, obj, form, change)
+
+
+
 
 
 admin.site.register(Participant, ParticipantAdmin)

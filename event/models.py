@@ -123,7 +123,8 @@ class Participant(models.Model):
         )
     spouse_name = models.CharField(
         max_length=28, 
-    null=True , blank=True)
+        null=True , 
+        blank=True)
 
     spouse_coming = models.CharField(
         max_length=3, 
@@ -210,7 +211,7 @@ class Participant(models.Model):
                  self.amount = 2500
             elif self.name and self.spouse_coming=='Yes' and self.driver_coming=='No':
                 self.amount = 2000
-            if self.name and self.spouse_coming=='No' and self.driver_coming=='Yes':
+            elif self.name and self.spouse_coming=='No' and self.driver_coming=='Yes':
                  self.amount = 1500
             elif self.name and self.spouse_coming=='No' and self.driver_coming=='No':
                 self.amount = 1000

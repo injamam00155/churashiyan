@@ -30,6 +30,12 @@ from .models import Participant
 from .models import Participant
 from .models import *
 
+cloudinary.config(
+    cloud_name= 'dp9chbbzs',
+    api_key= '935447648293141',
+    api_secret= 'w8CXOYS2ANRQeFfQECWuMcbQLCg'
+)
+
 
 def home(request):
     return render(request, 'home.html')
@@ -111,6 +117,7 @@ def admin_verify_participants(request):
 
 
 def participants(request):
+    
     participants = Participant.objects.all().order_by('id_number')
     context = {'participants': participants}
     return render(request, 'participants.html', context)
