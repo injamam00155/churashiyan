@@ -1,5 +1,6 @@
 from django.db import models
 import os
+from django.core.files import File
 import cloudinary
 from django.core.validators import RegexValidator
 
@@ -216,16 +217,17 @@ class Participant(models.Model):
             elif self.name and self.spouse_coming=='No' and self.driver_coming=='No':
                 self.amount = 1000
 
-            if self.id_number is None:  # Check if the instance is being saved for the first time
+            # if self.id_number is None:  # Check if the instance is being saved for the first time
             # Rename participant image
-                if self.participant_image:
-                    ext = os.path.splitext(self.participant_image.name)[1]
-                    self.participant_image.name = 'PP' + str(self.id_number) + ext
-
-                # Rename spouse image
-                if self.spouse_image:
-                    ext = os.path.splitext(self.spouse_image.name)[1]
-                    self.spouse_image.name = 'SP' + str(self.id_number) + ext
+            if self.participant_image:
+                ext = os.path.splitext(self.participant_image.name)[1]
+                self.participant_image.name = f'PP{self.id_number}{ext}'
+                self.participant_image = f'media/SP{self.id_number}{ext}'
+            # Rename spouse image
+            if self.spouse_image:
+                ext = os.path.splitext(self.spouse_image.name)[1]
+                self.spouse_image.name = f'SP{self.id_number}{ext}'
+                self.spouse_image = f'media/SP{self.id_number}{ext}'
 
             super().save(*args, **kwargs)
 

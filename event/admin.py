@@ -87,4 +87,3 @@ class ParticipantAdmin(admin.ModelAdmin):
 admin.site.register(Participant, ParticipantAdmin)
 
 
-
