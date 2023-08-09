@@ -3,6 +3,8 @@ from django.contrib import admin
 import cloudinary
 from django.contrib import admin
 from event.models import Participant
+from django.db.models import Q
+
 
 
 
@@ -78,15 +80,7 @@ class ParticipantAdmin(admin.ModelAdmin):
                 )
                 obj.spouse_image = response['public_id']
 
-            used_images = Participant.objects.exclude(participant_image='')
-            used_image_paths = [participant.participant_image.path for participant in used_images]
-            all_cloudinary_files = cloudinary.api.resources(type="upload")
-            cloudinary_image_public_ids = [file['public_id'] for file in all_cloudinary_files['resources']]
-            orphaned_files = [
-            public_id for public_id in cloudinary_image_public_ids if public_id not in used_image_paths
-            ]
-            for orphaned_public_id in orphaned_files:
-                cloudinary.api.delete_resources([orphaned_public_id])
+
 
         super().save_model(request, obj, form, change)
 

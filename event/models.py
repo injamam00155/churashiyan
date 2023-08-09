@@ -218,16 +218,6 @@ class Participant(models.Model):
                 self.amount = 1000
 
 
-            used_images = Participant.objects.exclude(participant_image='')
-            used_image_paths = [participant.participant_image.path for participant in used_images]
-            all_cloudinary_files = cloudinary.api.resources(type="upload")
-            cloudinary_image_public_ids = [file['public_id'] for file in all_cloudinary_files['resources']]
-            orphaned_files = [
-            public_id for public_id in cloudinary_image_public_ids if public_id not in used_image_paths
-            ]
-            for orphaned_public_id in orphaned_files:
-                cloudinary.api.delete_resources([orphaned_public_id])
-
             # if self.id_number is None:  # Check if the instance is being saved for the first time
             # Rename participant image
             # if self.participant_image:
