@@ -127,6 +127,11 @@
     const spouseNameField = document.querySelector('#{{ form.spouse_name.id_for_label }}');
     const spouseImageField = document.querySelector('#{{ form.spouse_image.id_for_label }}');
 
+
+    const isSpouseComing = spouseComingField.value === 'Yes';
+    spouseNameField.disabled = !isSpouseComing;
+    spouseImageField.disabled = !isSpouseComing;
+
     spouseComingField.addEventListener('change', function() {
         const isSpouseComing = spouseComingField.value === 'Yes';
         spouseNameField.disabled = !isSpouseComing;
