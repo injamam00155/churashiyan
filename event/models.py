@@ -208,27 +208,26 @@ class Participant(models.Model):
         super(Participant, self).delete(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-            if self.name and self.spouse_coming=='Yes' and self.driver_coming=='Yes':
-                 self.amount = 2500
-            elif self.name and self.spouse_coming=='Yes' and self.driver_coming=='No':
-                self.amount = 2000
-            elif self.name and self.spouse_coming=='No' and self.driver_coming=='Yes':
-                 self.amount = 1500
-            elif self.name and self.spouse_coming=='No' and self.driver_coming=='No':
-                self.amount = 1000
-
-
-            # if self.id_number is None:  # Check if the instance is being saved for the first time
-            # Rename participant image
-            # if self.participant_image:
-            #     ext = os.path.splitext(self.participant_image.name)[1]
-            #     self.participant_image.name = f'PP{self.id_number}{ext}'
-            #     self.participant_image = f'media/SP{self.id_number}{ext}'
-            # # Rename spouse image
-            # if self.spouse_image:
-            #     ext = os.path.splitext(self.spouse_image.name)[1]
-            #     self.spouse_image.name = f'SP{self.id_number}{ext}'
-            #     self.spouse_image = f'media/SP{self.id_number}{ext}'
-
-            super().save(*args, **kwargs)
+        if self.name and self.spouse_coming=='Yes' and self.driver_coming=='Yes':
+             self.amount = 2500
+        elif self.name and self.spouse_coming=='Yes' and self.driver_coming=='No':
+            self.amount = 2000
+        elif self.name and self.spouse_coming=='No' and self.driver_coming=='Yes':
+             self.amount = 1500
+        elif self.name and self.spouse_coming=='No' and self.driver_coming=='No':
+            self.amount = 1000
+        
+        # if self.id_number is None:  # Check if the instance is being saved for the first time
+        # Rename participant image
+        # if self.participant_image:
+        #     ext = os.path.splitext(self.participant_image.name)[1]
+        #     self.participant_image.name = f'PP{self.id_number}{ext}'
+        #     self.participant_image = f'media/SP{self.id_number}{ext}'
+        # # Rename spouse image
+        # if self.spouse_image:
+        #     ext = os.path.splitext(self.spouse_image.name)[1]
+        #     self.spouse_image.name = f'SP{self.id_number}{ext}'
+        #     self.spouse_image = f'media/SP{self.id_number}{ext}'
+        
+        super().save(*args, **kwargs)
 
