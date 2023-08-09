@@ -61,7 +61,7 @@ class ParticipantAdmin(admin.ModelAdmin):
                 response = cloudinary.uploader.upload(
                     form.cleaned_data['participant_image'].read(),
                     folder='media/',
-                    public_id=f"PP{obj.id_number}"
+                    # public_id=f"PP{obj.id_number}"
                 )
                 obj.participant_image = response['public_id']
 
@@ -74,7 +74,7 @@ class ParticipantAdmin(admin.ModelAdmin):
                 response = cloudinary.uploader.upload(
                     form.cleaned_data['spouse_image'].read(),
                     folder='media/',
-                    public_id=f"SP{obj.id_number}"
+                    # public_id=f"SP{obj.id_number}"
                 )
                 obj.spouse_image = response['public_id']
 

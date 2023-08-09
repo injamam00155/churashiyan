@@ -15,7 +15,8 @@ from pathlib import Path
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dp9chbbzs',
     'API_KEY': '935447648293141',
-    'API_SECRET': 'w8CXOYS2ANRQeFfQECWuMcbQLCg'
+    'API_SECRET': 'w8CXOYS2ANRQeFfQECWuMcbQLCg',
+    'DELETE_ORPHANED_MEDIA': True,  
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
