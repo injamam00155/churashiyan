@@ -122,6 +122,19 @@
         showSpouseImage(this);
     });
 </script>
+<script>
+    const spouseComingField = document.querySelector('#{{ form.spouse_coming.id_for_label }}');
+    const spouseNameField = document.querySelector('#{{ form.spouse_name.id_for_label }}');
+    const spouseImageField = document.querySelector('#{{ form.spouse_image.id_for_label }}');
+
+    spouseComingField.addEventListener('change', function() {
+        const isSpouseComing = spouseComingField.value === 'Yes';
+        spouseNameField.disabled = !isSpouseComing;
+        spouseImageField.disabled = !isSpouseComing;
+    });
+</script>
+
+
 
 
     
