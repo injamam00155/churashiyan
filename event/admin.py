@@ -46,39 +46,39 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 
 
-    def save_model(self, request, obj, form, change):
-        # Check if the participant_image has changed
-        print(form.cleaned_data['participant_image'].name)
-        print(obj.participant_image.name)
-        if 'participant_image' in form.changed_data:
-            # Delete the old participant image from Cloudinary
-            if obj.participant_image:
-                print(obj.participant_image.name)  
-                cloudinary.uploader.destroy(obj.participant_image.name)
+    # def save_model(self, request, obj, form, change):
+    #     # Check if the participant_image has changed
+    #     print(form.cleaned_data['participant_image'].name)
+    #     print(obj.participant_image.name)
+    #     if 'participant_image' in form.changed_data:
+    #         # Delete the old participant image from Cloudinary
+    #         if obj.participant_image:
+    #             print(obj.participant_image.name)  
+    #             cloudinary.uploader.destroy(obj.participant_image.name)
 
-            # Upload and update the participant_image with the new image
-            if form.cleaned_data['participant_image']:
-                response = cloudinary.uploader.upload(
-                    form.cleaned_data['participant_image'].read(),
-                    folder='media/',
-                    public_id=f"SP{obj.id_number}"
-                )
-                obj.participant_image = response['public_id']
+    #         # Upload and update the participant_image with the new image
+    #         if form.cleaned_data['participant_image']:
+    #             response = cloudinary.uploader.upload(
+    #                 form.cleaned_data['participant_image'].read(),
+    #                 folder='media/',
+    #                 public_id=f"PP{obj.id_number}"
+    #             )
+    #             obj.participant_image = response['public_id']
 
-        # Similar process for spouse_image
-        if 'spouse_image' in form.changed_data:
-            if obj.spouse_image:
-                cloudinary.uploader.destroy(obj.spouse_image.name)
+    #     # Similar process for spouse_image
+    #     if 'spouse_image' in form.changed_data:
+    #         if obj.spouse_image:
+    #             cloudinary.uploader.destroy(obj.spouse_image.name)
             
-            if form.cleaned_data['spouse_image']:
-                response = cloudinary.uploader.upload(
-                    form.cleaned_data['spouse_image'].read(),
-                    folder='media/',
-                    # public_id=f"SP{obj.id_number}"
-                )
-                obj.spouse_image = response['public_id']
+    #         if form.cleaned_data['spouse_image']:
+    #             response = cloudinary.uploader.upload(
+    #                 form.cleaned_data['spouse_image'].read(),
+    #                 folder='media/',
+    #                 public_id=f"SP{obj.id_number}"
+    #             )
+    #             obj.spouse_image = response['public_id']
 
-        super().save_model(request, obj, form, change)
+    #     super().save_model(request, obj, form, change)
 
 
 

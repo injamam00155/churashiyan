@@ -118,8 +118,16 @@ def admin_verify_participants(request):
 
 def participants(request):
     
-    participants = Participant.objects.all().order_by('id_number')
-    context = {'participants': participants}
+    participants = Participant.objects.all()
+    total_participants = participants.count()
+    total_spouses_coming = participants.filter(spouse_coming='Yes').count()
+
+    context = {
+        'participants': participants,
+        'total_participants': total_participants,
+        'total_spouses_coming': total_spouses_coming,
+        'total': total_spouses_coming+total_participants,
+    }
     return render(request, 'participants.html', context)
 
 
