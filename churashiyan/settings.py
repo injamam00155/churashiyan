@@ -59,6 +59,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    # 'path.to.YourCustomBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 
 
@@ -92,6 +96,8 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 # DATABASES = {
 #     'default': {

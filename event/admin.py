@@ -101,14 +101,15 @@ class CustomAdminSite(admin.AdminSite):
 
     def has_permission(self, request):
         # Allow superusers full access to all models
-        if request.user.is_superuser:
+        if request.user.is_staff:
             return True
         
         # Allow users in 'Admins' group to edit the Participant model
-        if request.user.groups.filter(name='Admins').exists():
-            return True if request.path.startswith('/admin/event/participant') else False
+        # if request.user.groups.filter(name='Admins').exists():
+        #     return True if request.path.startswith('/admin/event/participant') else False
         
         return False
+
 
     def index(self, request, extra_context=None):
         # Calculate statistics for each paid_at name
