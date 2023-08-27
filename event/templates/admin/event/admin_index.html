@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block content %}
+    {{ block.super }}
+    <div>
+        <h2>Dashboard</h2>
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Paid At</th>
+                    <th>Total Participants</th>
+                    <th>Total Spouses</th>
+                    <th>Total Drivers</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paid_at, stat in stats.items %}
+                <tr>
+                    <td>{{ stat.paid_at }}</td>
+                    <td>{{ stat.participants }}</td>
+                    <td>{{ stat.spouses }}</td>
+                    <td>{{ stat.drivers }}</td>
+                    <td>{{ stat.total_amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

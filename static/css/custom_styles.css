@@ -166,6 +166,10 @@ padding: 8px 12px;
 
 }
 
+.dataTables_filter{
+    margin-right: 5vw;
+}
+
 .odd {
     background-color: #00000045;
 }
