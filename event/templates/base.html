@@ -6,11 +6,6 @@
     <title>{% block title %}{% endblock %}</title>
 
     {% include 'header_links.html' %}
-    
-
-
-
-
 
 
 </head>
@@ -38,6 +33,30 @@
             </p>
         </center>
     </div>
+
+<!-- Countdown Timer -->
+    <div class="countdown">
+        <div class="countdown-item">
+            <span class="countdown-number" id="days">00</span>
+            <span>Days</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="hours">00</span>
+            <span>Hours</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="minutes">00</span>
+            <span>Minutes</span>
+        </div>
+        <div class="countdown-item">
+            <span class="countdown-number" id="seconds">00</span>
+            <span>Seconds</span>
+        </div>
+    </div>
+
+
+
+
     {% block content %}{% endblock %}
 
 

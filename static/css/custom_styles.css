@@ -1,4 +1,23 @@
 /* Custom styles for the navigation bar */
+
+        /* Add your custom styles here */
+.countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+.countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+        }
+.countdown-number {
+            font-size: 36px;
+        }
+
+
 .navbar {
     border-bottom: 2px solid #fff;
     /* White border at the bottom of the navigation bar */
@@ -193,6 +212,23 @@ padding: 8px 12px;
 }
 
 
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+}
+.countdown-number {
+    font-size: 36px;
+}
+
     /* Styles for desktop */
     @media (min-width: 992px) {
         .custom-container {
@@ -211,3 +247,7 @@ padding: 8px 12px;
             margin-bottom: 8rem;
         }
     }
+
+
+
+    
