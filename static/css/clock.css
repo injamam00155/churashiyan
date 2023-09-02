@@ -1,56 +1,58 @@
 .countdown {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px;
-        animation: scaleAnimation 0.5s ease-in-out; 
-    }
+    display: flex;
+    border: 2px solid #333;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #292828;
+    width: 450px;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+    animation: scaleAnimation 0.5s ease-in-out;
+}
+
 .countdown-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0 20px;
-       
-    }
-
-
-.countdown .clock {
-font-size: 36px;
-font-weight: 500;
-background-color: #222; 
-padding: 10px; 
-border: 2px solid #333; 
-border-radius: 10px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(5px);
+    margin: 0 20px;
 }
 
 .countdown-label {
-font-size: 18px;
-font-weight: 500;;
-margin-top: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 5px;
+    display: inline-block;
+    min-width: 50px;
+    text-align: center;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
 .countdown-number {
-display: inline-block;
-min-width: 50px; 
-text-align: center;
-background-color: #444;
-color: #fff; 
-padding: 5px; 
-border-radius: 5px; 
-margin-right: 5px; 
-
+    display: inline-block;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: center;
+    background-color: #444;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    margin-right: 5px;
 }
 
 @keyframes scaleAnimation {
-0% {
-    transform: scale(0);
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
-50% {
-    transform: scale(1.2);
-}
-100% {
-    transform: scale(1);
-}
-}
-
-
