@@ -20,7 +20,7 @@ models = django.apps.apps.get_models()
 
 # @admin.register(Participant)
 class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ['id_number', 'name', 'spouse_name', 'spouse_coming', 'driver_coming', 'paid_at', 'amount', 'transaction_id', 'is_verified']
+    list_display = ['id_number','participant_image', 'name', 'spouse_name', 'spouse_coming', 'driver_coming', 'paid_at', 'amount', 'transaction_id', 'is_verified']
     actions = ['mark_verified', 'mark_unverified']  # Add custom actions to set 'is_verified'
     list_filter = ['is_verified', 'paid_at']
 
